@@ -11,4 +11,4 @@ const canvas = useRef<HTMLCanvasElement|null>(null)
   }, [])
   return <canvas ref={canvas} width={1000} height={600}/>
 }
-export default GameCanvas
+export default GameCanvas 
