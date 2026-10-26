@@ -1,19 +1,19 @@
 type playerSkin = "default"|"ninja"|"clockmaker"|"apprentice"|"rags"
 type direction = "up"|"left"|"right"|"glide"
-interface Player{
+export interface Player{
     skin: Skin,
     posX: number,
     posY:number,
     health: number
 }
-interface Skin{
+export interface Skin{
     skin: playerSkin,
     buff: number, //speed
     healthBonus: number,
     gravity:number,
     jump: number
 }
-const skins: Skin[] = [
+export const skins: Skin[] = [
     {skin:"default", buff: 0,healthBonus:0, gravity:1, jump:1}, 
     {skin:"ninja", buff:0.25, healthBonus:-0.1, gravity:0.85,jump:1.2},
     {skin:"clockmaker", buff:0.1, healthBonus:0.25, gravity:1.05,jump:0.9},
@@ -26,7 +26,7 @@ function calculateMoveDist(elapsed: number, skin:Skin, dist:number, jump?:boolea
     return elapsed*(1+skin.buff)*dist
 }
 
-function movePlayer(player: Player, dir:direction, time:number,){
+export function movePlayer(player: Player, dir:direction, time:number,){
     if(dir==="right")
         player.posX+=calculateMoveDist(time,player.skin,20)
     if(dir==="left")
@@ -37,5 +37,5 @@ function movePlayer(player: Player, dir:direction, time:number,){
         player.posX+=calculateMoveDist(time,player.skin,40)
         player.posY-=calculateMoveDist(time,player.skin,20)*(player.skin.gravity)
     }
-
 }
+
