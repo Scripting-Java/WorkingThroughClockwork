@@ -35,7 +35,7 @@ export function movePlayer(player: Player, dir:direction, time:number,){
         player.posY-=calculateMoveDist(time,player.skin,50,true)*(1+(1-player.skin.gravity))
     if(dir==="glide"){
         player.posX+=calculateMoveDist(time,player.skin,40)
-        player.posY-=calculateMoveDist(time,player.skin,20)*(player.skin.gravity)
+        player.posY+=calculateMoveDist(time,player.skin,20)*(player.skin.gravity)
     }
 }
 

@@ -22,11 +22,23 @@ function GameCanvas() {
             }
         }
         function handleInput(event: KeyboardEvent, player: Player) {
-            if (event.key === "d") {
+            if (event.key.toLocaleLowerCase() === "d") {
                 movePlayer(player, "right", 1)
                 draw()
             }
-            
+            if(event.key.toLocaleLowerCase()==="a"){
+                movePlayer(player,"left",1)
+                draw()
+            }
+            if(event.key.toLocaleLowerCase()==="w"){
+                movePlayer(player,"up",1)
+                draw()
+            }
+            if(event.key.toLocaleLowerCase()==="s"){
+                movePlayer(player,"glide",1)
+                draw()
+            }
+
         }
         draw()
         window.addEventListener("keydown",input)
