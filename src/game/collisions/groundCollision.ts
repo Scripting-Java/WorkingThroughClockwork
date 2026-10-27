@@ -1,9 +1,10 @@
-import type { Player } from "./player";
+import type { Player } from "../player";
 
 const groundY=540
-const playerHeight=60
+
 
 export function groundCollision(player:Player){
+    const playerHeight=player.skin.height
     if(player.posY+playerHeight>=groundY){
         player.posY=groundY-playerHeight
         player.yVel=0
@@ -27,11 +28,13 @@ const dummyPlatforms: platform[] = [
 ]
 
 export function groundCollisionOfPlatform(player:Player, index:number){
-    const ground = dummyPlatforms[index].height
+    const playerHeight=player.skin.height
+    const ground = dummyPlatforms[index].y
     if(player.posY+playerHeight>=ground){
         player.posY=ground-playerHeight
         player.yVel=0
         player.onGround=true
     }
-    player.onGround = false
+    else
+        player.onGround = false
 }
