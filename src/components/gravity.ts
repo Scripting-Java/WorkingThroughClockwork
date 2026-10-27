@@ -7,3 +7,10 @@ export function gravity(player:Player){
         player.posY+=player.yVel
     }
 }
+
+export function glideGravity(player:Player){
+    if(!player.onGround){
+        player.yVel+=gravityConstant*player.skin.gravity*0.5
+        player.posY+=player.yVel
+    }
+}

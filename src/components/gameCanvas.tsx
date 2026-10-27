@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react"
 import type { Player} from "../game/player"
 import { movePlayer, skins } from "../game/player"
-import { gravity } from "./gravity"
+import { gravity, glideGravity } from "./gravity"
 
 function GameCanvas() {
     const playerRef = useRef<Player>({ skin: skins[0], posX: 100, posY: 450, health: 100, yVel:0,onGround:true })
@@ -29,19 +29,19 @@ function GameCanvas() {
                 movePlayer(player, "glideRight", 1)
                 draw()
             }
-            if (inputs.has("a") && inputs.has("s")) {
+            else if (inputs.has("a") && inputs.has("s")) {
                 movePlayer(player, "glideLeft", 1)
                 draw()
             }
-            if (event.key.toLowerCase() === "d") {
+            else if (event.key.toLowerCase() === "d") {
                 movePlayer(player, "right", 1)
                 draw()
             }
-            if (event.key.toLowerCase() === "a") {
+            else if (event.key.toLowerCase() === "a") {
                 movePlayer(player, "left", 1)
                 draw()
             }
-            if (event.key.toLowerCase() === "w") {
+            else if (event.key.toLowerCase() === "w") {
                 movePlayer(player, "up", 1)
                 draw()
             }
@@ -51,14 +51,18 @@ function GameCanvas() {
         }
         draw()
         function gameLoop(){
-            gravity(player)
+        const gliding = inputs.has("s")&&(inputs.has("a")||inputs.has("d"))
+            if(gliding)
+                glideGravity(player)
+            else
+                gravity(player)
             draw()
             frameId = requestAnimationFrame(gameLoop)
         }
         let frameId = requestAnimationFrame(gameLoop)
         window.addEventListener("keydown", handleInput)
         window.addEventListener("keyup", handleInputOff)
-        
+
         return () => { cancelAnimationFrame(frameId), window.removeEventListener("keydown", handleInput), window.removeEventListener("keyup", handleInputOff) }
     }, [])
     return <canvas ref={canvas} width={1000} height={600} />
