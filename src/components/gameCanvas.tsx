@@ -1,10 +1,10 @@
 import { useRef, useEffect } from "react"
-import type { Player, Skin } from "../game/player"
+import type { Player} from "../game/player"
 import { movePlayer, skins } from "../game/player"
 
 
 function GameCanvas() {
-    const playerRef = useRef<Player>({ skin: skins[0], posX: 100, posY: 450, health: 100 })
+    const playerRef = useRef<Player>({ skin: skins[0], posX: 100, posY: 450, health: 100, yVel:0,onGround:true })
     const player = playerRef.current
     const canvas = useRef<HTMLCanvasElement | null>(null)
     useEffect(() => {
@@ -20,6 +20,8 @@ function GameCanvas() {
                 context.fillRect(player.posX, player.posY, 40, 60)
             }
         }
+        
+        
         function handleInput(event: KeyboardEvent) {
             const input = event.key.toLowerCase()
             inputs.add(input)
@@ -43,14 +45,20 @@ function GameCanvas() {
                 movePlayer(player, "up", 1)
                 draw()
             }
-        }
+}
         function handleInputOff(event: KeyboardEvent) {
             inputs.delete(event.key.toLowerCase())
         }
         draw()
+        function gameLoop(){
+            draw()
+            frameId = requestAnimationFrame(gameLoop)
+        }
+        let frameId = requestAnimationFrame(gameLoop)
         window.addEventListener("keydown", handleInput)
         window.addEventListener("keyup", handleInputOff)
-        return () => { window.removeEventListener("keydown", handleInput), window.removeEventListener("keyup", handleInputOff) }
+        
+        return () => { cancelAnimationFrame(frameId), window.removeEventListener("keydown", handleInput), window.removeEventListener("keyup", handleInputOff) }
     }, [])
     return <canvas ref={canvas} width={1000} height={600} />
 }

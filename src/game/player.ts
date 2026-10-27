@@ -5,6 +5,8 @@ export interface Player{
     posX: number,
     posY:number,
     health: number
+    yVel: number,
+    onGround:boolean
 }
 export interface Skin{
     skin: playerSkin,
