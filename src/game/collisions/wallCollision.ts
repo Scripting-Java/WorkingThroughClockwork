@@ -1,5 +1,5 @@
 import type { Player } from "../player";
-import { dummyPlatforms } from "./groundCollision";
+import { dummyPlatforms } from "../../levels/data";
 
 export function touchingWall(player: Player, index: number): boolean {
     const platform = dummyPlatforms[index]

@@ -1,15 +1,20 @@
 import type { Player } from "../player";
-import { dummyPlatforms } from "./groundCollision";
+import { dummyPlatforms } from "../../levels/data";
 
 export function ceilColl(player:Player, index:number){
-    const
-    const playerHeight=player.skin.height
     const platform = dummyPlatforms[index]
-    if(platform.height+platform.y){
-        player.posY=-playerHeight
+    const ceil = platform.ceiling
+    
+    if(ceil===undefined||player.yVel>=0)
+        return
+    
+    const playerW = player.skin.width
+    const playerHeight=player.skin.height
+    const horizontal = player.posX<platform.x+platform.width && player.posX+playerW>platform.x
+    
+    const touchCeil = player.posY<=ceil
+    if(horizontal&&touchCeil){
+        player.posY=ceil
         player.yVel=0
-        player.onGround=true
     }
-    else
-        player.onGround = false
 }
