@@ -2,6 +2,7 @@ import { useRef, useEffect } from "react"
 import type { Player} from "../game/player"
 import { movePlayer, skins } from "../game/player"
 import { gravity, glideGravity } from "./gravity"
+import { groundCollision } from "../game/groundCollision"
 
 function GameCanvas() {
     const playerRef = useRef<Player>({ skin: skins[0], posX: 100, posY: 450, health: 100, yVel:0,onGround:true })
@@ -56,6 +57,7 @@ function GameCanvas() {
                 glideGravity(player)
             else
                 gravity(player)
+            groundCollision(player)
             draw()
             frameId = requestAnimationFrame(gameLoop)
         }
