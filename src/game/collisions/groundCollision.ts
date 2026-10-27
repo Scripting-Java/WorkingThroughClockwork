@@ -21,7 +21,7 @@ interface platform{
     height:number,
     name?:string
 }
-const dummyPlatforms: platform[] = [
+export const dummyPlatforms: platform[] = [
     {x:0, y:540, width:1000, height:60},
     {x:200, y:420, width:150, height:20, name: "Lv1Part1"},
     {x:450, y:330, width: 200, height:20}
