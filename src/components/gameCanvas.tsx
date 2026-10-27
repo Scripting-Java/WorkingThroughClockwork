@@ -23,11 +23,9 @@ function GameCanvas() {
         function handleInput(event: KeyboardEvent) {
             const input = event.key.toLowerCase()
             inputs.add(input)
-            if (inputs.has("s")) {
-                if (inputs.has("d")) {
-                    movePlayer(player, "glideRight", 1)
-                    draw()
-                }
+            if (inputs.has("s") && inputs.has("d")) {
+                movePlayer(player, "glideRight", 1)
+                draw()
             }
             if (inputs.has("a") && inputs.has("s")) {
                 movePlayer(player, "glideLeft", 1)
