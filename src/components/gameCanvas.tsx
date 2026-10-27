@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react"
 import type { Player} from "../game/player"
 import { movePlayer, skins } from "../game/player"
-
+import { gravity } from "./gravity"
 
 function GameCanvas() {
     const playerRef = useRef<Player>({ skin: skins[0], posX: 100, posY: 450, health: 100, yVel:0,onGround:true })
@@ -51,6 +51,7 @@ function GameCanvas() {
         }
         draw()
         function gameLoop(){
+            gravity(player)
             draw()
             frameId = requestAnimationFrame(gameLoop)
         }
