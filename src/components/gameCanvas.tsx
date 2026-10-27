@@ -4,16 +4,15 @@ import { movePlayer, skins } from "../game/player"
 
 
 function GameCanvas() {
-    const playerRef=useRef<Player>({ skin: skins[0], posX: 100, posY: 450, health: 100 })
+    const playerRef = useRef<Player>({ skin: skins[0], posX: 100, posY: 450, health: 100 })
     const player = playerRef.current
     const canvas = useRef<HTMLCanvasElement | null>(null)
     useEffect(() => {
         const tempCanvas = canvas.current
         const context = tempCanvas?.getContext('2d')
-        const input = (event: KeyboardEvent) => handleInput(event, player)
-
+        const inputs = new Set<string>()
         if (!tempCanvas || !context)
-            return () => window.removeEventListener("keydown", input)
+            return
         function draw() {
             if (context && tempCanvas) {
                 context.clearRect(0, 0, tempCanvas.width, tempCanvas.height)
@@ -21,28 +20,39 @@ function GameCanvas() {
                 context.fillRect(player.posX, player.posY, 40, 60)
             }
         }
-        function handleInput(event: KeyboardEvent, player: Player) {
-            if (event.key.toLocaleLowerCase() === "d") {
+        function handleInput(event: KeyboardEvent) {
+            const input = event.key.toLowerCase()
+            inputs.add(input)
+            if (inputs.has("s")) {
+                if (inputs.has("d")) {
+                    movePlayer(player, "glideRight", 1)
+                    draw()
+                }
+            }
+            if (inputs.has("a") && inputs.has("s")) {
+                movePlayer(player, "glideLeft", 1)
+                draw()
+            }
+            if (event.key.toLowerCase() === "d") {
                 movePlayer(player, "right", 1)
                 draw()
             }
-            if(event.key.toLocaleLowerCase()==="a"){
-                movePlayer(player,"left",1)
+            if (event.key.toLowerCase() === "a") {
+                movePlayer(player, "left", 1)
                 draw()
             }
-            if(event.key.toLocaleLowerCase()==="w"){
-                movePlayer(player,"up",1)
+            if (event.key.toLowerCase() === "w") {
+                movePlayer(player, "up", 1)
                 draw()
             }
-            if(event.key.toLocaleLowerCase()==="s"){
-                movePlayer(player,"glide",1)
-                draw()
-            }
-
+        }
+        function handleInputOff(event: KeyboardEvent) {
+            inputs.delete(event.key.toLowerCase())
         }
         draw()
-        window.addEventListener("keydown",input)
-        return()=>window.removeEventListener("keydown",input)
+        window.addEventListener("keydown", handleInput)
+        window.addEventListener("keyup", handleInputOff)
+        return () => { window.removeEventListener("keydown", handleInput), window.removeEventListener("keyup", handleInputOff) }
     }, [])
     return <canvas ref={canvas} width={1000} height={600} />
 }

@@ -1,5 +1,5 @@
 type playerSkin = "default"|"ninja"|"clockmaker"|"apprentice"|"rags"
-type direction = "up"|"left"|"right"|"glide"
+type direction = "up"|"left"|"right"|"glideRight"| "glideLeft"
 export interface Player{
     skin: Skin,
     posX: number,
@@ -33,8 +33,12 @@ export function movePlayer(player: Player, dir:direction, time:number,){
         player.posX-=calculateMoveDist(time,player.skin,20)
     if(dir==="up")
         player.posY-=calculateMoveDist(time,player.skin,50,true)*(1+(1-player.skin.gravity))
-    if(dir==="glide"){
+    if(dir==="glideRight"){
         player.posX+=calculateMoveDist(time,player.skin,40)
+        player.posY+=calculateMoveDist(time,player.skin,20)*(player.skin.gravity)
+    }
+    if(dir==="glideLeft"){
+        player.posX-=calculateMoveDist(time,player.skin,40)
         player.posY+=calculateMoveDist(time,player.skin,20)*(player.skin.gravity)
     }
 }
