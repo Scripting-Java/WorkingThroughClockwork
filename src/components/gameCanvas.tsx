@@ -4,11 +4,12 @@ import { movePlayer, skins } from "../game/player"
 import { gravity, glideGravity } from "../game/gravity"
 import { groundCollision } from "../game/collisions/groundCollision"
 import { ceilColl } from "../game/collisions/ceilingCollision"
-
+import { abandonedWorkshop } from "../levels/L1/level1"
 
 function GameCanvas() {
     const playerRef = useRef<Player>({ skin: skins[0], posX: 100, posY: 450, health: 100, yVel: 0, onGround: true })
     const player = playerRef.current
+    const currentRoom = abandonedWorkshop.rooms[2]
     const canvas = useRef<HTMLCanvasElement | null>(null)
     useEffect(() => {
         const tempCanvas = canvas.current
@@ -21,6 +22,17 @@ function GameCanvas() {
                 context.clearRect(0, 0, tempCanvas.width, tempCanvas.height)
                 context.fillStyle = "#d6ad78"
                 context.fillRect(player.posX, player.posY, 10, 10)
+            }
+        }
+        function drawTest(){
+            if(context&&tempCanvas){
+                context.fillStyle = "#99846f"
+                context.fillRect(0,0,tempCanvas.width,tempCanvas.height)
+
+                for(const platform of currentRoom.platforms){
+                    context.fillStyle = "#ecdbcb"
+                    context.fillRect(platform.x,platform.y,platform.width,platform.height)
+                }
             }
         }
 
