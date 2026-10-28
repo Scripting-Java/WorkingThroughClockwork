@@ -1,4 +1,4 @@
-export type harmful = "none"|"spike"|"gear"|"hole"|"steam"
+export type harmful = "spike"|"gear"|"hole"|"steam"
 export interface platform{
     x:number,
     y:number,
@@ -7,10 +7,15 @@ export interface platform{
     ceiling?:number,
     name?:string
     img?:string,
-    obstacle?: harmful,
-    obstacleWidth?: number,
-    obstacleHeight?:number,
-    obstaclePosition?:number, //width and height starting point relative to top left corner starting of platform
+    obstacle?: obstacle,
+   
+}
+export interface obstacle{
+    obstacleType: harmful
+    obstacleWidth: number,
+    obstacleHeight:number,
+    obstacleX:number, 
+    obstacleY:number
 }
 export interface room{
     platforms: platform[],
