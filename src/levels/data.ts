@@ -1,3 +1,4 @@
+export type harmful = "none"|"spike"|"gear"|"hole"|"steam"
 export interface platform{
     x:number,
     y:number,
@@ -5,14 +6,21 @@ export interface platform{
     height:number,
     ceiling?:number,
     name?:string
+    img?:string,
+    obstacle?: harmful,
+    obstacleWidth?: number,
+    obstacleHeight?:number,
+    obstaclePosition?:number, //width and height starting point relative to top left corner starting of platform
 }
 export interface room{
     platforms: platform[],
-    index:number
+    index:number,
+    floor: number
 }
-type levelId = "abandoned"|"overgrowth"|"clocktower"
+export type levelId = "abandoned"|"overgrowth"|"clocktower"
 export interface level{
-    id:levelId
+    id:levelId,
+    rooms: room[]
 }
 export const dummyPlatforms: platform[] = [
     {x:0, y:540, width:1000, height:60, ceiling:100},
