@@ -90,7 +90,7 @@ function GameCanvas() {
         }
 
         drawTest()
-        const fps = 75
+        const fps = 65
         const frameDur = 1000/fps
         let lastFrame = 0
         function game(now: number) {
