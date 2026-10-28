@@ -9,7 +9,6 @@ export function ceilColl(player:Player, index:number){
         return
     
     const playerW = player.skin.width
-    const playerHeight=player.skin.height
     const horizontal = player.posX<platform.x+platform.width && player.posX+playerW>platform.x
     
     const touchCeil = player.posY<=ceil

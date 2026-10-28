@@ -3,6 +3,7 @@ import type { Player} from "../game/player"
 import { movePlayer, skins } from "../game/player"
 import { gravity, glideGravity } from "./gravity"
 import { groundCollision } from "../game/collisions/groundCollision"
+import { ceilColl } from "../game/collisions/ceilingCollision"
 
 function GameCanvas() {
     const playerRef = useRef<Player>({ skin: skins[0], posX: 100, posY: 450, health: 100, yVel:0,onGround:true })
@@ -58,6 +59,7 @@ function GameCanvas() {
             else
                 gravity(player)
             groundCollision(player)
+            ceilColl(player,0)
             draw()
             frameId = requestAnimationFrame(gameLoop)
         }
