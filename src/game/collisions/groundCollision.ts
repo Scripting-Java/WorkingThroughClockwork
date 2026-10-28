@@ -1,5 +1,5 @@
 import type { Player } from "../player";
-import { dummyPlatforms } from "../../levels/data";
+import {  type platform } from "../../levels/data";
 const groundY=800
 
 
@@ -15,16 +15,16 @@ export function groundCollision(player:Player){
 }
 
 
-
-
-export function groundCollisionOfPlatform(player:Player, index:number){
-    const playerHeight=player.skin.height
-    const ground = dummyPlatforms[index].y
-    if(player.posY+playerHeight>=ground){
-        player.posY=ground-playerHeight
+export function groundCollisionOfPlatform(player:Player, platform: platform){
+    const playerH=player.skin.height
+    const playerW = player.skin.width
+    const ground = platform.y
+    const playerMin = player.posY+playerH
+    const platformMax = platform.y
+    const overlap = player.posX+playerW>platform.x&&player.posX<platform.x+platform.width
+    if(overlap&&player.posY+playerH>=ground){
+        player.posY=ground-playerH
         player.yVel=0
         player.onGround=true
     }
-    else
-        player.onGround = false
 }

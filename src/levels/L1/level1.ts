@@ -1,4 +1,4 @@
-import type { platform, room, level, levelId} from "../data";
+import type { platform, room, level} from "../data";
 
 const intro: platform = {x: 50,y: 800,width: 1000,height: 200}
 
@@ -13,7 +13,7 @@ const floor4to5: room = {
 }
 
 const secondRoomPt1: platform = {x:0,y:800,width:200,height:200}
-const secondRoomPt2: platform = {x:250,y:900, width: 100, height:100}
+const secondRoomPt2: platform = {x:250,y:700, width: 100, height:100}
 const secondRoomPt3: platform = {x:375, y:700, width: 150, height:300}
 const secondRoomPt4: platform = {x:550, y: 600, width:100,height:300}
 const secondRoomPt5: platform = {x:700,y:600, width:150, height:400,obstacle:{obstacleType:"spike", obstacleHeight:50,obstacleWidth:50,obstacleX:50, obstacleY:0}}
