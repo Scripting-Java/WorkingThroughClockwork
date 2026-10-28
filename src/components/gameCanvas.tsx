@@ -6,6 +6,7 @@ import { belowLowestPlatform, groundCollisionOfPlatform } from "../game/collisio
 import { ceilColl } from "../game/collisions/ceilingCollision"
 import { abandonedWorkshop } from "../levels/L1/level1"
 import { handleObstacles } from "../game/collisions/obstacleCollision"
+import { spike } from "../game/obstacles/drawObstacles"
 
 function GameCanvas() {
     const spawnX = 100
@@ -42,21 +43,9 @@ function GameCanvas() {
                     context.fillStyle = "#e6cba8"
                     context.fillRect(platform.x,platform.y,platform.width,8)
                 
-                    const obstacle = platform.obstacle
-                    if(obstacle?.obstacleType==="spike"){
-                        const x = platform.x+obstacle.obstacleX
-                        const y = platform.y+obstacle.obstacleY
-                        const width = obstacle.obstacleWidth??30
-                        const height = obstacle.obstacleHeight??50
-                        context.fillStyle="#db5144"
-                        context.beginPath()
-                        context.moveTo(x,y)
-                        context.lineTo(x+width/2,y-height)
-                        context.lineTo(x+width,y)
-                        context.closePath()
-                        context.fill()
+                    if(platform.obstacle?.obstacleType==="spike" && context)
+                        spike(platform.obstacle, platform,context)
                     }
-                }
             }
             if(context&&tempCanvas){
                 context.fillStyle="d6ad78"
@@ -91,11 +80,11 @@ function GameCanvas() {
 
         drawTest()
         const fps = 65
-        const frameDur = 1000/fps
+        const frame = 1000/fps
         let lastFrame = 0
         function game(now: number) {
-            if(now-lastFrame>=frameDur){
-                lastFrame=now-((now-lastFrame)%frameDur)
+            if(now-lastFrame>=frame){
+                lastFrame=now-((now-lastFrame)%frame)
             
             const prev = player.posY
             const gliding = inputs.has("s") && (inputs.has("a") || inputs.has("d"))
@@ -109,8 +98,9 @@ function GameCanvas() {
             
             for(const platform of currentRoom.platforms){
                 groundCollisionOfPlatform(player,platform, prev)
-                if(platform.obstacle)
+                if(platform.obstacle){
                     handleObstacles(platform.obstacle,player,platform)
+                }
             }
             if(belowLowestPlatform(player,currentRoom.platforms))
                 player.health=0

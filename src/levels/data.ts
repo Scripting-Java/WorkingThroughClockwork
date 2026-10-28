@@ -1,4 +1,4 @@
-export type harmful = "spike"|"gear"|"hole"|"steam"
+export type harmful = "spike"|"gear"|"steam"
 export interface platform{
     x:number,
     y:number,
