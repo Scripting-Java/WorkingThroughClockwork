@@ -1,6 +1,6 @@
 import type { Player } from "../player";
 import { dummyPlatforms } from "../../levels/data";
-const groundY=1000
+const groundY=800
 
 
 export function groundCollision(player:Player){
