@@ -15,14 +15,13 @@ export function groundCollision(player:Player){
 }
 
 
-export function groundCollisionOfPlatform(player:Player, platform: platform){
+export function groundCollisionOfPlatform(player:Player, platform: platform, prevY:number){
     const playerH=player.skin.height
     const playerW = player.skin.width
     const ground = platform.y
-    const playerMin = player.posY+playerH
-    const platformMax = platform.y
+    const pass = prevY<=ground&&player.posY+playerH>=ground
     const overlap = player.posX+playerW>platform.x&&player.posX<platform.x+platform.width
-    if(overlap&&player.posY+playerH>=ground){
+    if(pass&&overlap&&player.posY+playerH>=ground){
         player.posY=ground-playerH
         player.yVel=0
         player.onGround=true

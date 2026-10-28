@@ -17,6 +17,11 @@ function GameCanvas() {
         const inputs = new Set<string>()
         if (!tempCanvas || !context)
             return
+        
+        function spawn(){
+            //draw spawn here
+        }
+
         function drawTest(){
             if(context&&tempCanvas){
                 context.clearRect(0,0,tempCanvas.width,tempCanvas.height)
@@ -90,7 +95,7 @@ function GameCanvas() {
             ceilColl(player, 0)
             player.onGround = false
             for(const platform of currentRoom.platforms)
-                groundCollisionOfPlatform(player,platform)
+                groundCollisionOfPlatform(player,platform, player.posY)
             drawTest()
         }
             frameId = requestAnimationFrame(game)
