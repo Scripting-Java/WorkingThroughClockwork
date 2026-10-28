@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react"
 import type { Player} from "../game/player"
 import { movePlayer, skins } from "../game/player"
-import { gravity, glideGravity } from "./gravity"
+import { gravity, glideGravity } from "../game/gravity"
 import { groundCollision } from "../game/collisions/groundCollision"
 import { ceilColl } from "../game/collisions/ceilingCollision"
 
