@@ -1,6 +1,6 @@
 import type { Player } from "../game/player";
 
-const gravityConstant = 0.1
+const gravityConstant = 0.01
 export function gravity(player:Player){
     if(!player.onGround){
         player.yVel+=gravityConstant*player.skin.gravity

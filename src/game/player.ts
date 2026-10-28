@@ -43,11 +43,9 @@ export function movePlayer(player: Player, dir:direction, time:number,){
         }
     if(dir==="glideRight"){
         player.posX+=calculateMoveDist(time,player.skin,40)
-        player.posY+=calculateMoveDist(time,player.skin,20)*(player.skin.gravity)
-    }
+        }
     if(dir==="glideLeft"){
         player.posX-=calculateMoveDist(time,player.skin,40)
-        player.posY+=calculateMoveDist(time,player.skin,20)*(player.skin.gravity)
     }
 }
 

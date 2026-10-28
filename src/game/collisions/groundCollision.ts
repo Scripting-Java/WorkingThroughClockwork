@@ -1,5 +1,4 @@
 import type { Player } from "../player";
-import type { platform } from "../../levels/data";
 import { dummyPlatforms } from "../../levels/data";
 const groundY=540
 

@@ -52,7 +52,7 @@ function GameCanvas() {
             inputs.delete(event.key.toLowerCase())
         }
         draw()
-        function gameLoop(){
+        function game(){
         const gliding = inputs.has("s")&&(inputs.has("a")||inputs.has("d"))
             if(gliding)
                 glideGravity(player)
@@ -61,14 +61,14 @@ function GameCanvas() {
             groundCollision(player)
             ceilColl(player,0)
             draw()
-            frameId = requestAnimationFrame(gameLoop)
+            frameId = requestAnimationFrame(game)
         }
-        let frameId = requestAnimationFrame(gameLoop)
+        let frameId = requestAnimationFrame(game)
         window.addEventListener("keydown", handleInput)
         window.addEventListener("keyup", handleInputOff)
 
         return () => { cancelAnimationFrame(frameId), window.removeEventListener("keydown", handleInput), window.removeEventListener("keyup", handleInputOff) }
     }, [])
-    return <canvas ref={canvas} width={1000} height={600} />
+    return <canvas ref={canvas} width={1000} height={1000} />
 }
 export default GameCanvas 
