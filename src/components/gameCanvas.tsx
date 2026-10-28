@@ -2,11 +2,14 @@ import { useRef, useEffect } from "react"
 import type { Player } from "../game/player"
 import { movePlayer, skins } from "../game/player"
 import { gravity, glideGravity } from "../game/gravity"
-import { groundCollision, groundCollisionOfPlatform } from "../game/collisions/groundCollision"
+import { belowLowestPlatform, groundCollisionOfPlatform } from "../game/collisions/groundCollision"
 import { ceilColl } from "../game/collisions/ceilingCollision"
 import { abandonedWorkshop } from "../levels/L1/level1"
+import { handleObstacles } from "../game/collisions/obstacleCollision"
 
 function GameCanvas() {
+    const spawnX = 100
+    const spawnY = 450
     const playerRef = useRef<Player>({ skin: skins[0], posX: 100, posY: 450, health: 100, yVel: 0, onGround: true })
     const player = playerRef.current
     const currentRoom = abandonedWorkshop.rooms[2]
@@ -19,7 +22,12 @@ function GameCanvas() {
             return
         
         function spawn(){
-            //draw spawn here
+            player.posX = spawnX
+            player.posY = spawnY
+            player.yVel=0
+            player.health=100
+            player.onGround=false
+            drawTest() 
         }
 
         function drawTest(){
@@ -57,7 +65,6 @@ function GameCanvas() {
             }
         }
 
-
         function handleInput(event: KeyboardEvent) {
             const input = event.key.toLowerCase()
             inputs.add(input)
@@ -77,26 +84,39 @@ function GameCanvas() {
                 movePlayer(player, "up", 1)
             }
         }
+
         function handleInputOff(event: KeyboardEvent) {
             inputs.delete(event.key.toLowerCase())
         }
+
         drawTest()
-        const fps = 60
+        const fps = 75
         const frameDur = 1000/fps
         let lastFrame = 0
         function game(now: number) {
             if(now-lastFrame>=frameDur){
                 lastFrame=now-((now-lastFrame)%frameDur)
+            
+            const prev = player.posY
             const gliding = inputs.has("s") && (inputs.has("a") || inputs.has("d"))
             if (gliding)
                 glideGravity(player)
             else
                 gravity(player)
+
             ceilColl(player, 0)
             player.onGround = false
-            for(const platform of currentRoom.platforms)
-                groundCollisionOfPlatform(player,platform, player.posY)
+            
+            for(const platform of currentRoom.platforms){
+                groundCollisionOfPlatform(player,platform, prev)
+                if(platform.obstacle)
+                    handleObstacles(platform.obstacle,player,platform)
+            }
+            if(belowLowestPlatform(player,currentRoom.platforms))
+                player.health=0
             drawTest()
+            if(player.health<=0)
+                spawn()
         }
             frameId = requestAnimationFrame(game)
         }

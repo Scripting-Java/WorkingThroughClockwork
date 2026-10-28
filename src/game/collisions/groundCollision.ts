@@ -19,11 +19,20 @@ export function groundCollisionOfPlatform(player:Player, platform: platform, pre
     const playerH=player.skin.height
     const playerW = player.skin.width
     const ground = platform.y
-    const pass = prevY<=ground&&player.posY+playerH>=ground
+    const pass = prevY+playerH<=ground&&player.posY+playerH>=ground
     const overlap = player.posX+playerW>platform.x&&player.posX<platform.x+platform.width
     if(pass&&overlap&&player.posY+playerH>=ground){
         player.posY=ground-playerH
         player.yVel=0
         player.onGround=true
     }
+}
+
+export function belowLowestPlatform(player:Player,platforms:platform[]):boolean{
+    let lowest = 0
+    for(const platform of platforms){
+        if(platform.y+platform.height>=lowest)
+            lowest=platform.y+platform.height
+    }
+    return(player.posY+player.skin.height>=lowest)
 }
