@@ -1,12 +1,12 @@
 import { useRef, useEffect } from "react"
-import type { Player} from "../game/player"
+import type { Player } from "../game/player"
 import { movePlayer, skins } from "../game/player"
 import { gravity, glideGravity } from "../game/gravity"
 import { groundCollision } from "../game/collisions/groundCollision"
 import { ceilColl } from "../game/collisions/ceilingCollision"
 
 function GameCanvas() {
-    const playerRef = useRef<Player>({ skin: skins[0], posX: 100, posY: 450, health: 100, yVel:0,onGround:true })
+    const playerRef = useRef<Player>({ skin: skins[0], posX: 100, posY: 450, health: 100, yVel: 0, onGround: true })
     const player = playerRef.current
     const canvas = useRef<HTMLCanvasElement | null>(null)
     useEffect(() => {
@@ -19,11 +19,11 @@ function GameCanvas() {
             if (context && tempCanvas) {
                 context.clearRect(0, 0, tempCanvas.width, tempCanvas.height)
                 context.fillStyle = "#d6ad78"
-                context.fillRect(player.posX, player.posY, 40, 60)
+                context.fillRect(player.posX, player.posY, 10, 10)
             }
         }
-        
-        
+
+
         function handleInput(event: KeyboardEvent) {
             const input = event.key.toLowerCase()
             inputs.add(input)
@@ -47,20 +47,26 @@ function GameCanvas() {
                 movePlayer(player, "up", 1)
                 draw()
             }
-}
+        }
         function handleInputOff(event: KeyboardEvent) {
             inputs.delete(event.key.toLowerCase())
         }
         draw()
-        function game(){
-        const gliding = inputs.has("s")&&(inputs.has("a")||inputs.has("d"))
-            if(gliding)
+        const fps = 60
+        const frameDur = 1000/fps
+        let lastFrame = 0
+        function game(now: number) {
+            if(now-lastFrame>=frameDur){
+                lastFrame=now-((now-lastFrame)%frameDur)
+            const gliding = inputs.has("s") && (inputs.has("a") || inputs.has("d"))
+            if (gliding)
                 glideGravity(player)
             else
                 gravity(player)
             groundCollision(player)
-            ceilColl(player,0)
+            ceilColl(player, 0)
             draw()
+        }
             frameId = requestAnimationFrame(game)
         }
         let frameId = requestAnimationFrame(game)
