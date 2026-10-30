@@ -7,6 +7,7 @@ import { ceilColl } from "../game/collisions/ceilingCollision"
 import { abandonedWorkshop } from "../levels/L1/level1"
 import { handleObstacles } from "../game/collisions/obstacleCollision"
 import { spike } from "../game/obstacles/drawObstacles"
+import { drawTile } from "../game/platforms/drawPlatforms"
 
 function GameCanvas() {
     const spawnX = 100
@@ -28,21 +29,17 @@ function GameCanvas() {
             player.yVel=0
             player.health=100
             player.onGround=false
-            drawTest() 
+            draw() 
         }
 
-        function drawTest(){
+        function draw(){
             if(context&&tempCanvas){
                 context.clearRect(0,0,tempCanvas.width,tempCanvas.height)
                 context.fillStyle = "#b3a68c"
                 context.fillRect(0,0,tempCanvas.width,tempCanvas.height)
 
                 for(const platform of currentRoom.platforms){
-                    context.fillStyle = "#ecdbcb"
-                    context.fillRect(platform.x,platform.y,platform.width,platform.height)
-                    context.fillStyle = "#e6cba8"
-                    context.fillRect(platform.x,platform.y,platform.width,8)
-                
+                    drawTile(platform,context)
                     if(platform.obstacle?.obstacleType==="spike" && context)
                         spike(platform.obstacle, platform,context)
                     }
@@ -78,7 +75,7 @@ function GameCanvas() {
             inputs.delete(event.key.toLowerCase())
         }
 
-        drawTest()
+        draw()
         const fps = 65
         const frame = 1000/fps
         let lastFrame = 0
@@ -104,7 +101,7 @@ function GameCanvas() {
             }
             if(belowLowestPlatform(player,currentRoom.platforms))
                 player.health=0
-            drawTest()
+            draw()
             if(player.health<=0)
                 spawn()
         }

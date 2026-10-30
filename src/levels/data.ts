@@ -1,4 +1,5 @@
 export type harmful = "spike"|"gear"|"steam"
+export type platType = "default"|"rusted"|"wood"
 export interface platform{
     x:number,
     y:number,
@@ -8,7 +9,7 @@ export interface platform{
     name?:string
     img?:string,
     obstacle?: obstacle,
-   
+    style?: platType
 }
 export interface obstacle{
     obstacleType: harmful

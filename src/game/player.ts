@@ -51,3 +51,4 @@ export function movePlayer(player: Player, dir:direction, time:number,){
     }
 }
 
+
