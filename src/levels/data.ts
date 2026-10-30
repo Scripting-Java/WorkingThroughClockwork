@@ -1,5 +1,5 @@
 export type harmful = "spike"|"gear"|"steam"
-export type platType = "default"|"rusted"|"wood"
+export type platType = "default"|"rusted"
 export interface platform{
     x:number,
     y:number,

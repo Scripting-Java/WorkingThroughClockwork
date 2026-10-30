@@ -7,9 +7,16 @@ const first: room = {
     index: 0,
     floor:4
 }
-const secondRoomPt0: platform = {x:0, y:800, width:1000,height:200}
-const floor4to5: room = {
-    platforms:[secondRoomPt0], index:1,floor:4
+const stairMaker: platform[] =[]
+for(let i =900;i>=400;i-=100){
+    stairMaker.push({x:(900-i),y:i, width:100,height:50})
+}
+stairMaker.push({x:700,y:400,width:450,height:400})
+
+const stairs: room = {
+    platforms: stairMaker,
+    index:1,
+    floor:4
 }
 
 const secondRoomPt1: platform = {x:0,y:800,width:200,height:200}
@@ -25,5 +32,5 @@ const second: room = {
 
 export const abandonedWorkshop: level = {
     id: "abandoned",
-    rooms: [first, floor4to5,second]
+    rooms: [first, stairs,second]
 }

@@ -14,9 +14,10 @@ function GameCanvas() {
     const spawnY = 450
     const playerRef = useRef<Player>({ skin: skins[0], posX: 100, posY: 450, health: 100, yVel: 0, onGround: true })
     const player = playerRef.current
-    const currentRoom = abandonedWorkshop.rooms[2]
     const canvas = useRef<HTMLCanvasElement | null>(null)
     useEffect(() => {
+         let roomIndex = 2
+        let currentRoom = abandonedWorkshop.rooms[roomIndex]
         const tempCanvas = canvas.current
         const context = tempCanvas?.getContext('2d')
         const inputs = new Set<string>()
