@@ -14,7 +14,7 @@ const floor4to5: room = {
 
 const secondRoomPt1: platform = {x:0,y:800,width:200,height:200}
 const secondRoomPt2: platform = {x:375, y:700, width: 150, height:300}
-const secondRoomPt3: platform = {x:700,y:500, width:100, height:200,obstacle:{obstacleType:"spike", obstacleHeight:50,obstacleWidth:50,obstacleX:50, obstacleY:0}}
+const secondRoomPt3: platform = {x:700,y:600, width:100, height:200,obstacle:{obstacleType:"spike", obstacleHeight:50,obstacleWidth:50,obstacleX:50, obstacleY:0}}
 const secondRoomPt4: platform = {x:900, y:600, width:100, height:400}
 
 const second: room = {

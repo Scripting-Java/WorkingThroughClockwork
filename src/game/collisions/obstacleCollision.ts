@@ -6,7 +6,7 @@ export function handleObstacles(obstacle: obstacle, player: Player, platform: pl
     const y = platform.y + obstacle.obstacleY
     const w = obstacle.obstacleWidth
     const h = obstacle.obstacleHeight
-    const touching = player.posX < x + w && player.posX + player.skin.width > x && player.posY < y + h && player.posY + player.skin.height > y
+    const touching = player.posX < x + w && player.posX + player.skin.width > x && player.posY < y && player.posY + player.skin.height > y-h
     if (obstacle.obstacleType === "spike" && touching)
         handleSpike(player)
     if (obstacle.obstacleType === "steam" && touching && fps)
