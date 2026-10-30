@@ -8,6 +8,7 @@ import { abandonedWorkshop } from "../levels/L1/level1"
 import { handleObstacles } from "../game/collisions/obstacleCollision"
 import { spike } from "../game/obstacles/drawObstacles"
 import { drawTile } from "../game/platforms/drawPlatforms"
+import { drawFloor } from "../game/floors/drawFloors"
 
 function GameCanvas() {
     let spawnX = 100
@@ -49,17 +50,15 @@ function GameCanvas() {
                 context.clearRect(0, 0, tempCanvas.width, tempCanvas.height)
                 context.fillStyle = "#b3a68c"
                 context.fillRect(0, 0, tempCanvas.width, tempCanvas.height)
-
+                drawFloor(currentRoom.floor, context)
                 for (const platform of currentRoom.platforms) {
                     drawTile(platform, context)
                     if (platform.obstacle?.obstacleType === "spike" && context)
                         spike(platform.obstacle, platform, context)
                 }
-            }
-            if (context && tempCanvas) {
+
                 context.fillStyle = "#d6ad78"
                 context.fillRect(player.posX, player.posY, player.skin.width, player.skin.height)
-
             }
         }
         function handleJump(event: KeyboardEvent) {
@@ -97,9 +96,9 @@ function GameCanvas() {
                         handleObstacles(platform.obstacle, player, platform)
                     }
                 }
+                draw()
                 if (belowLowestPlatform(player, currentRoom.platforms))
                     player.health = 0
-                draw()
                 if (player.health <= 0)
                     spawn()
                 if (player.posX + player.skin.width >= 1010)
@@ -111,10 +110,10 @@ function GameCanvas() {
                         movePlayer(player, "glideLeft", 1)
                 }
                 else {
-                    if (inputs.has("d")) 
+                    if (inputs.has("d"))
                         movePlayer(player, "right", 1)
-                    else if 
-                    (inputs.has("a")) movePlayer(player, "left", 1)
+                    else if
+                        (inputs.has("a")) movePlayer(player, "left", 1)
                 }
             }
             frameId = requestAnimationFrame(game)
@@ -122,7 +121,6 @@ function GameCanvas() {
         let frameId = requestAnimationFrame(game)
         window.addEventListener("keydown", handleJump)
         window.addEventListener("keyup", handleInputOff)
-
         return () => { cancelAnimationFrame(frameId), window.removeEventListener("keydown", handleJump), window.removeEventListener("keyup", handleInputOff) }
     }, [])
     return <canvas ref={canvas} width={1000} height={1000} />
