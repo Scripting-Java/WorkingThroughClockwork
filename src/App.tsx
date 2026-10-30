@@ -7,7 +7,7 @@ function App() {
   return (
     <section>
       <h1>Working Through Clockwork</h1>
-      <GameCanvas />
+      <div className='game'><GameCanvas /></div>
     </section>
   )
 }

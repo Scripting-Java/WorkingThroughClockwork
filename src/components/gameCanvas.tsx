@@ -9,6 +9,7 @@ import { handleObstacles } from "../game/collisions/obstacleCollision"
 import { spike } from "../game/obstacles/drawObstacles"
 import { drawTile } from "../game/platforms/drawPlatforms"
 import { drawFloor } from "../game/floors/drawFloors"
+import { camera,view } from "../game/camera"
 
 function GameCanvas() {
     let spawnX = 100
@@ -17,7 +18,7 @@ function GameCanvas() {
     const player = playerRef.current
     const canvas = useRef<HTMLCanvasElement | null>(null)
     useEffect(() => {
-        let roomIndex = 0
+        let roomIndex = 2
         let currentRoom = abandonedWorkshop.rooms[roomIndex]
         function handleRoom() {
             if (roomIndex >= abandonedWorkshop.rooms.length - 1)
@@ -26,13 +27,27 @@ function GameCanvas() {
             currentRoom = abandonedWorkshop.rooms[roomIndex]
             spawn()
         }
-
-
         const tempCanvas = canvas.current
         const context = tempCanvas?.getContext('2d')
-        const inputs = new Set<string>()
-        if (!tempCanvas || !context)
-            return
+        function draw() {
+            if (context && tempCanvas) {
+                context.clearRect(0, 0, tempCanvas.width, tempCanvas.height)
+                context.fillStyle = "#b3a68c"
+                context.fillRect(0, 0, tempCanvas.width, tempCanvas.height)
+                context.save()
+                view(context,camera,player)
+                drawFloor(currentRoom.floor, context)
+                for (const platform of currentRoom.platforms) {
+                    drawTile(platform, context)
+                    if (platform.obstacle?.obstacleType === "spike" && context)
+                        spike(platform.obstacle, platform, context)
+                }
+
+                context.fillStyle = "#d6ad78"
+                context.fillRect(player.posX, player.posY, player.skin.width, player.skin.height)
+                context.restore()
+            }
+        }
 
         function spawn() {
             spawnX = currentRoom.platforms[0].x + 15
@@ -45,22 +60,7 @@ function GameCanvas() {
             draw()
         }
 
-        function draw() {
-            if (context && tempCanvas) {
-                context.clearRect(0, 0, tempCanvas.width, tempCanvas.height)
-                context.fillStyle = "#b3a68c"
-                context.fillRect(0, 0, tempCanvas.width, tempCanvas.height)
-                drawFloor(currentRoom.floor, context)
-                for (const platform of currentRoom.platforms) {
-                    drawTile(platform, context)
-                    if (platform.obstacle?.obstacleType === "spike" && context)
-                        spike(platform.obstacle, platform, context)
-                }
-
-                context.fillStyle = "#d6ad78"
-                context.fillRect(player.posX, player.posY, player.skin.width, player.skin.height)
-            }
-        }
+        const inputs = new Set<string>()
         function handleJump(event: KeyboardEvent) {
             const input = event.key.toLowerCase()
             inputs.add(input)
@@ -101,7 +101,7 @@ function GameCanvas() {
                     player.health = 0
                 if (player.health <= 0)
                     spawn()
-                if (player.posX + player.skin.width >= 1010)
+                if (player.posX + player.skin.width >= 2010)
                     handleRoom()
                 if (gliding) {
                     if (inputs.has("d"))
@@ -123,6 +123,6 @@ function GameCanvas() {
         window.addEventListener("keyup", handleInputOff)
         return () => { cancelAnimationFrame(frameId), window.removeEventListener("keydown", handleJump), window.removeEventListener("keyup", handleInputOff) }
     }, [])
-    return <canvas ref={canvas} width={1000} height={1000} />
+    return <canvas ref={canvas} width={2000} height={1500} />
 }
 export default GameCanvas 
