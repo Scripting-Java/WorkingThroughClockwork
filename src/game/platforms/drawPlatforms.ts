@@ -11,6 +11,7 @@ const width = 64
 const height =64
 export function drawTile(platform:platform, context: CanvasRenderingContext2D){
     let tile = woodTile
+    platform.style = "rusted"
     if(platform.style==="rusted")
         tile=rustTile
     else

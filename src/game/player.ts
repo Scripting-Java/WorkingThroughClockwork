@@ -51,4 +51,6 @@ export function movePlayer(player: Player, dir:direction, time:number,){
     }
 }
 
-
+export function drawPlayer(player: Player, context: CanvasRenderingContext2D){
+    
+}

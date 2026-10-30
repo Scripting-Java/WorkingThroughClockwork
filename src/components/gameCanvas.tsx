@@ -45,7 +45,7 @@ function GameCanvas() {
                     }
             }
             if(context&&tempCanvas){
-                context.fillStyle="d6ad78"
+                context.fillStyle="#d6ad78"
                 context.fillRect(player.posX,player.posY,player.skin.width,player.skin.height)
 
             }
