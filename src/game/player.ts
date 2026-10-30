@@ -33,8 +33,8 @@ function calculateMoveDist(elapsed: number, skin:Skin, dist:number, jump?:boolea
 }
 
 export function movePlayer(player: Player, dir:direction, time:number,){
-    const glideX = 25
-    const move = 15
+    const glideX = 10
+    const move = 13
     if(dir==="right")
         player.posX+=calculateMoveDist(time,player.skin,move)
     if(dir==="left")
