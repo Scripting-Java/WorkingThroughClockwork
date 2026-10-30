@@ -10,66 +10,63 @@ import { spike } from "../game/obstacles/drawObstacles"
 import { drawTile } from "../game/platforms/drawPlatforms"
 
 function GameCanvas() {
-    const spawnX = 100
-    const spawnY = 450
+    let spawnX = 100
+    let spawnY = 200
     const playerRef = useRef<Player>({ skin: skins[0], posX: 100, posY: 450, health: 100, yVel: 0, onGround: true })
     const player = playerRef.current
     const canvas = useRef<HTMLCanvasElement | null>(null)
     useEffect(() => {
-         let roomIndex = 2
+        let roomIndex = 0
         let currentRoom = abandonedWorkshop.rooms[roomIndex]
+        function handleRoom() {
+            if (roomIndex >= abandonedWorkshop.rooms.length - 1)
+                return
+            roomIndex++
+            currentRoom = abandonedWorkshop.rooms[roomIndex]
+            spawn()
+        }
+
+
         const tempCanvas = canvas.current
         const context = tempCanvas?.getContext('2d')
         const inputs = new Set<string>()
         if (!tempCanvas || !context)
             return
-        
-        function spawn(){
+
+        function spawn() {
+            spawnX = currentRoom.platforms[0].x + 15
+            spawnY = currentRoom.platforms[0].y - player.skin.height - 25
             player.posX = spawnX
             player.posY = spawnY
-            player.yVel=0
-            player.health=100
-            player.onGround=false
-            draw() 
+            player.yVel = 0
+            player.health = 100
+            player.onGround = false
+            draw()
         }
 
-        function draw(){
-            if(context&&tempCanvas){
-                context.clearRect(0,0,tempCanvas.width,tempCanvas.height)
+        function draw() {
+            if (context && tempCanvas) {
+                context.clearRect(0, 0, tempCanvas.width, tempCanvas.height)
                 context.fillStyle = "#b3a68c"
-                context.fillRect(0,0,tempCanvas.width,tempCanvas.height)
+                context.fillRect(0, 0, tempCanvas.width, tempCanvas.height)
 
-                for(const platform of currentRoom.platforms){
-                    drawTile(platform,context)
-                    if(platform.obstacle?.obstacleType==="spike" && context)
-                        spike(platform.obstacle, platform,context)
-                    }
+                for (const platform of currentRoom.platforms) {
+                    drawTile(platform, context)
+                    if (platform.obstacle?.obstacleType === "spike" && context)
+                        spike(platform.obstacle, platform, context)
+                }
             }
-            if(context&&tempCanvas){
-                context.fillStyle="#d6ad78"
-                context.fillRect(player.posX,player.posY,player.skin.width,player.skin.height)
+            if (context && tempCanvas) {
+                context.fillStyle = "#d6ad78"
+                context.fillRect(player.posX, player.posY, player.skin.width, player.skin.height)
 
             }
         }
-
-        function handleInput(event: KeyboardEvent) {
+        function handleJump(event: KeyboardEvent) {
             const input = event.key.toLowerCase()
             inputs.add(input)
-            if (inputs.has("s") && inputs.has("d")) {
-                movePlayer(player, "glideRight", 1)
-            }
-            else if (inputs.has("a") && inputs.has("s")) {
-                movePlayer(player, "glideLeft", 1)
-            }
-            else if (event.key.toLowerCase() === "d") {
-                movePlayer(player, "right", 1)
-            }
-            else if (event.key.toLowerCase() === "a") {
-                movePlayer(player, "left", 1)
-            }
-            else if (event.key.toLowerCase() === "w") {
+            if (event.key.toLowerCase() === "w")
                 movePlayer(player, "up", 1)
-            }
         }
 
         function handleInputOff(event: KeyboardEvent) {
@@ -77,42 +74,56 @@ function GameCanvas() {
         }
 
         draw()
-        const fps = 65
-        const frame = 1000/fps
+        const fps = 75
+        const frame = 1000 / fps
         let lastFrame = 0
         function game(now: number) {
-            if(now-lastFrame>=frame){
-                lastFrame=now-((now-lastFrame)%frame)
-            
-            const prev = player.posY
-            const gliding = inputs.has("s") && (inputs.has("a") || inputs.has("d"))
-            if (gliding)
-                glideGravity(player)
-            else
-                gravity(player)
+            if (now - lastFrame >= frame) {
+                lastFrame = now - ((now - lastFrame) % frame)
 
-            ceilColl(player, 0)
-            player.onGround = false
-            
-            for(const platform of currentRoom.platforms){
-                groundCollisionOfPlatform(player,platform, prev)
-                if(platform.obstacle){
-                    handleObstacles(platform.obstacle,player,platform)
+                const prev = player.posY
+                const gliding = inputs.has("s") && (inputs.has("a") || inputs.has("d"))
+                if (gliding)
+                    glideGravity(player)
+                else
+                    gravity(player)
+
+                ceilColl(player, 0)
+                player.onGround = false
+
+                for (const platform of currentRoom.platforms) {
+                    groundCollisionOfPlatform(player, platform, prev)
+                    if (platform.obstacle) {
+                        handleObstacles(platform.obstacle, player, platform)
+                    }
+                }
+                if (belowLowestPlatform(player, currentRoom.platforms))
+                    player.health = 0
+                draw()
+                if (player.health <= 0)
+                    spawn()
+                if (player.posX + player.skin.width >= 1010)
+                    handleRoom()
+                if (gliding) {
+                    if (inputs.has("d"))
+                        movePlayer(player, "glideRight", 1)
+                    else
+                        movePlayer(player, "glideLeft", 1)
+                }
+                else {
+                    if (inputs.has("d")) 
+                        movePlayer(player, "right", 1)
+                    else if 
+                    (inputs.has("a")) movePlayer(player, "left", 1)
                 }
             }
-            if(belowLowestPlatform(player,currentRoom.platforms))
-                player.health=0
-            draw()
-            if(player.health<=0)
-                spawn()
-        }
             frameId = requestAnimationFrame(game)
         }
         let frameId = requestAnimationFrame(game)
-        window.addEventListener("keydown", handleInput)
+        window.addEventListener("keydown", handleJump)
         window.addEventListener("keyup", handleInputOff)
 
-        return () => { cancelAnimationFrame(frameId), window.removeEventListener("keydown", handleInput), window.removeEventListener("keyup", handleInputOff) }
+        return () => { cancelAnimationFrame(frameId), window.removeEventListener("keydown", handleJump), window.removeEventListener("keyup", handleInputOff) }
     }, [])
     return <canvas ref={canvas} width={1000} height={1000} />
 }

@@ -1,4 +1,3 @@
-import { useState, useRef, useEffect } from 'react'
 import GameCanvas from './components/gameCanvas'
 import './App.css'
 
