@@ -102,6 +102,7 @@ const sixth: room ={
     floor:3
 }
 
+const seventhPt1
 
 
 export const abandonedWorkshop: level = {
