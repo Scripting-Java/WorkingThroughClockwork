@@ -2,10 +2,10 @@ import type { obstacle, platform } from "../../levels/data";
 import spikeArt from "../../assets/obstacles/spike.png"
 import steamAnim from "../../assets/obstacles/SteamAnimation.png"
 //btw a lot of the code renders weird frames
-//this is because the way I drew it, frames 5-7 are warnings
+//this is because the way I drew it, frames 4-7 are warnings
 //all of the drawing is on lapse btw
 //frame 8 is steam vent off
-//and frames 1-4 are obviously the steam
+//and frames 1-3 are obviously the steam
 //these are tentative values
 //also the frames are drawn in a 3x3 spritesheet from piskelapp.com
 //for the column and row logic
@@ -45,17 +45,17 @@ export function steam(obstacle: obstacle, platform: platform, context: CanvasRen
     //warning frames mentioned above
     if(cycle.elapsed<tempFPS){
         cycle.active=false
-        frame = 4+Math.floor(cycle.elapsed/(tempFPS/3))
+        frame = 3+Math.floor(cycle.elapsed/(tempFPS/4))
     }
     //active steam vent(cycles through 4 frames)
     else if(cycle.elapsed<tempFPS*5){
         cycle.active=true
-        frame=Math.floor((cycle.elapsed-tempFPS)/(tempFPS/2))%4
+        frame=Math.floor((cycle.elapsed-tempFPS)/(tempFPS/3))%3
     }
     //cooldown
     else{
         cycle.active = false
-        frame = 7
+        frame = 8
     }
 
     const col=frame%3
