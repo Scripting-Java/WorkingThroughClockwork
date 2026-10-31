@@ -19,7 +19,7 @@ function Game() {
     const player = playerRef.current
     const canvas = useRef<HTMLCanvasElement | null>(null)
     useEffect(() => {
-        let roomIndex = 0
+        let roomIndex = 3
         let currentRoom = abandonedWorkshop.rooms[roomIndex]
         function handleRoom() {
             if (roomIndex >= abandonedWorkshop.rooms.length - 1)
