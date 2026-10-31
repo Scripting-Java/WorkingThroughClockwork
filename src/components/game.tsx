@@ -6,11 +6,12 @@ import { belowLowestPlatform, groundCollisionOfPlatform } from "../game/collisio
 import { ceilColl } from "../game/collisions/ceilingCollision"
 import { abandonedWorkshop } from "../levels/L1/level1"
 import { handleObstacles } from "../game/collisions/obstacleCollision"
-import { spike } from "../game/obstacles/drawObstacles"
+import { spike, steam } from "../game/obstacles/drawObstacles"
 import { drawPipe, drawTile } from "../game/platforms/drawPlatforms"
 import { drawFloor } from "../game/floors/drawFloors"
 import { camera, view } from "../game/camera"
 import { pipes } from "../levels/data"
+import type { steamCycle } from "../game/obstacles/drawObstacles"
 
 function Game() {
     let spawnX = 100
@@ -19,13 +20,25 @@ function Game() {
     const player = playerRef.current
     const canvas = useRef<HTMLCanvasElement | null>(null)
     useEffect(() => {
-        let roomIndex = 3
+        const fps = 75
+        const frame = 1000 / fps
+        let roomIndex = 6
         let currentRoom = abandonedWorkshop.rooms[roomIndex]
+        let cycles: (steamCycle | null)[] = []
+        function handleSteam() {
+            cycles = currentRoom.platforms.map(platform => {
+                if (platform.obstacle?.obstacleType === "steam")
+                    return { elapsed: Math.random()*7*fps, active: false, contact: 0 }
+                return null
+            })
+        }
+        handleSteam()
         function handleRoom() {
             if (roomIndex >= abandonedWorkshop.rooms.length - 1)
                 return
             roomIndex++
             currentRoom = abandonedWorkshop.rooms[roomIndex]
+            handleSteam()
             spawn()
         }
         const tempCanvas = canvas.current
@@ -35,15 +48,22 @@ function Game() {
                 context.clearRect(0, 0, tempCanvas.width, tempCanvas.height)
                 context.fillStyle = "#b3a68c"
                 context.fillRect(0, 0, tempCanvas.width, tempCanvas.height)
-                if(roomIndex===0)
+                if (roomIndex === 0)
                     drawPipe(pipes, context)
                 context.save()
                 view(context, camera, player)
                 drawFloor(currentRoom.floor, context)
+                let index = 0
                 for (const platform of currentRoom.platforms) {
                     drawTile(platform, context)
-                    if (platform.obstacle?.obstacleType === "spike" && context)
+                    if (platform.obstacle?.obstacleType === "spike")
                         spike(platform.obstacle, platform, context)
+                    if (platform.obstacle?.obstacleType === "steam") {
+                        const cycle = cycles[index]
+                        if (cycle)
+                            steam(platform.obstacle, platform, context, cycle, fps)
+                    }
+                    index++
                 }
 
                 context.fillStyle = "#d6ad78"
@@ -76,8 +96,6 @@ function Game() {
         }
 
         spawn()
-        const fps = 75
-        const frame = 1000 / fps
         let lastFrame = 0
         function game(now: number) {
             if (now - lastFrame >= frame) {
@@ -92,12 +110,17 @@ function Game() {
 
                 ceilColl(player, 0)
                 player.onGround = false
-
+                let index = 0
                 for (const platform of currentRoom.platforms) {
                     groundCollisionOfPlatform(player, platform, prev)
                     if (platform.obstacle) {
-                        handleObstacles(platform.obstacle, player, platform)
+                        const cycle = cycles[index]
+                        if(cycle)
+                            handleObstacles(platform.obstacle, player, platform, fps, cycle)
+                        else
+                            handleObstacles(platform.obstacle, player, platform, fps)
                     }
+                    index++
                 }
                 draw()
                 if (belowLowestPlatform(player, currentRoom.platforms))
