@@ -23,7 +23,8 @@ export function spike(obstacle: obstacle, platform: platform, context: CanvasRen
 }
 export interface steamCycle{
     elapsed:number, //frames btw
-    active:boolean
+    active:boolean,
+    contact:number //time player has been touching
 }
 
 export function steam(obstacle: obstacle, platform: platform, context: CanvasRenderingContext2D, cycle:steamCycle, fps?:number) {
@@ -49,7 +50,7 @@ export function steam(obstacle: obstacle, platform: platform, context: CanvasRen
     //active steam vent(cycles through 4 frames)
     else if(cycle.elapsed<tempFPS*5){
         cycle.active=true
-        frame=Math.floor((cycle.elapsed-tempFPS)/tempFPS/2)%4
+        frame=Math.floor((cycle.elapsed-tempFPS)/(tempFPS/2))%4
     }
     //cooldown
     else{
