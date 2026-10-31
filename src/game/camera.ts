@@ -8,7 +8,7 @@ export interface cameras{
 export const camera:cameras = {
     x: 0,
     y: 0,
-    zoom: 1.25
+    zoom: 2
 }
 
 export function track(camera:cameras, player:Player){

@@ -11,10 +11,9 @@ defaultFloor5.src=floor5default
 export function drawFloor(floor:number,context:CanvasRenderingContext2D){
     if(floor===5){
         for(let i =0; i<4;i++){
-            const x= i*256
-            const tileWidth = Math.min(256, 1000-x)
-            context.drawImage(defaultFloor5,x,744,tileWidth,256)
+            const x= i*512
+            context.drawImage(defaultFloor5,x,1200,512,512)
         }
-        context.drawImage(floor5Main, 372, 744, 256,256)
+        context.drawImage(floor5Main, 372, 1200, 512,512)
     }
 }

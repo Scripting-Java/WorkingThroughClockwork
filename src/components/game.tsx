@@ -7,18 +7,19 @@ import { ceilColl } from "../game/collisions/ceilingCollision"
 import { abandonedWorkshop } from "../levels/L1/level1"
 import { handleObstacles } from "../game/collisions/obstacleCollision"
 import { spike } from "../game/obstacles/drawObstacles"
-import { drawTile } from "../game/platforms/drawPlatforms"
+import { drawPipe, drawTile } from "../game/platforms/drawPlatforms"
 import { drawFloor } from "../game/floors/drawFloors"
-import { camera,view } from "../game/camera"
+import { camera, view } from "../game/camera"
+import { pipes } from "../levels/data"
 
-function GameCanvas() {
+function Game() {
     let spawnX = 100
     let spawnY = 200
     const playerRef = useRef<Player>({ skin: skins[0], posX: 100, posY: 450, health: 100, yVel: 0, onGround: true })
     const player = playerRef.current
     const canvas = useRef<HTMLCanvasElement | null>(null)
     useEffect(() => {
-        let roomIndex = 2
+        let roomIndex = 0
         let currentRoom = abandonedWorkshop.rooms[roomIndex]
         function handleRoom() {
             if (roomIndex >= abandonedWorkshop.rooms.length - 1)
@@ -34,8 +35,10 @@ function GameCanvas() {
                 context.clearRect(0, 0, tempCanvas.width, tempCanvas.height)
                 context.fillStyle = "#b3a68c"
                 context.fillRect(0, 0, tempCanvas.width, tempCanvas.height)
+                if(roomIndex===0)
+                    drawPipe(pipes, context)
                 context.save()
-                view(context,camera,player)
+                view(context, camera, player)
                 drawFloor(currentRoom.floor, context)
                 for (const platform of currentRoom.platforms) {
                     drawTile(platform, context)
@@ -72,7 +75,7 @@ function GameCanvas() {
             inputs.delete(event.key.toLowerCase())
         }
 
-        draw()
+        spawn()
         const fps = 75
         const frame = 1000 / fps
         let lastFrame = 0
@@ -125,4 +128,4 @@ function GameCanvas() {
     }, [])
     return <canvas ref={canvas} width={2000} height={1500} />
 }
-export default GameCanvas 
+export default Game 

@@ -1,4 +1,4 @@
-import GameCanvas from './components/gameCanvas'
+import Game from './components/game'
 import './App.css'
 
 function App() {
@@ -7,7 +7,7 @@ function App() {
   return (
     <section>
       <h1>Working Through Clockwork</h1>
-      <div className='game'><GameCanvas /></div>
+      <div className='game'><Game /></div>
     </section>
   )
 }

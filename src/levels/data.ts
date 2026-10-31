@@ -1,5 +1,5 @@
 export type harmful = "spike"|"gear"|"steam"
-export type platType = "default"|"rusted"
+export type platType = "default"|"rusted"|"pipe"
 export interface platform{
     x:number,
     y:number,
@@ -33,3 +33,5 @@ export const dummyPlatforms: platform[] = [
     {x:200, y:420, width:150, height:20, name: "Lv1Part1"},
     {x:450, y:330, width: 200, height:20}
 ]
+
+export const pipes: platform = {x:0, y:1000, width:2000, height:64, style:"pipe"}
