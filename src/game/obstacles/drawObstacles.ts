@@ -23,7 +23,7 @@ export function spike(obstacle: obstacle, platform: platform, context: CanvasRen
         context.save()
         context.translate(x,y+h)
         context.scale(1,-1)
-        context.drawImage(spikeImg,0,0,w,h)
+        context.drawImage(spikeImg,0,-h,w,h)
         context.restore()
     }
     else

@@ -27,7 +27,7 @@ function Game() {
         let lastFrame = 0
         const fps = 75
         const frame = 1000 / fps
-        let roomIndex = 7
+        let roomIndex = 6
         let falling = false
         let pauseI = 0
         let paused = false

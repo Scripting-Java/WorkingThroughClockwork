@@ -1,3 +1,4 @@
+import { spike } from "../../game/obstacles/drawObstacles";
 import type { platform, room, level} from "../data";
 import { style } from "../styles";
 const intro: platform = {x: 0,y: 1300,width: 2000,height: 200}
@@ -95,9 +96,10 @@ const sixthPt2: platform = {x:500, y:1300, width: 50, height:200, obstacle:{obst
 const sixthPt3: platform = {x:650, y:1300, width:50, height: 200, obstacle:{obstacleType:"spike", obstacleWidth:50, obstacleHeight:50, obstacleX:0, obstacleY:0}}
 const sixthPt4: platform = {x: 800, y:1300, width: 50, height:200, obstacle:{obstacleType:"steam", obstacleHeight:200, obstacleWidth:100, obstacleX:25, obstacleY:0}}
 const sixthPt5: platform = {x:850, y:1300, width:1150, height:200}
+const sixthPt6: platform = {x:600, y:900,width:50,height:50,obstacle:{obstacleType:"spike",obstacleWidth:50,obstacleHeight:50,obstacleX:0,obstacleY:0,dir:"down"}}
 
 const sixth: room ={
-    platforms:style([sixthPt1,sixthPt2,sixthPt3,sixthPt4,sixthPt5]),
+    platforms:style([sixthPt1,sixthPt2,sixthPt3,sixthPt4,sixthPt5,sixthPt6]),
     index:6,
     floor:3
 }
@@ -137,5 +139,5 @@ const ninth: room = {
 
 export const abandonedWorkshop: level = {
     id: "abandoned",
-    rooms: [first, stairs,second, third, fourth, fifth, sixth,seventh,eighth,ninth,last]
+    rooms: [first, stairs,second, third, fourth, fifth, sixth, last,seventh,eighth,ninth,last]
 }
