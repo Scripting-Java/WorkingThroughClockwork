@@ -26,10 +26,6 @@ function handleSpike(player: Player) {
 }
 
 
-function handleSteam(player: Player, fps: number, cycle:steamCycle) {
-    cycle.contact++
-    if(cycle.contact>=fps){
-        player.health-=10
-        cycle.contact=0
-    }
+function handleSteam(player: Player, fps: number) {
+        player.health-=10/fps
 }

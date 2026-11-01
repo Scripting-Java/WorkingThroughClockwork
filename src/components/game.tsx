@@ -27,7 +27,7 @@ function Game() {
         let lastFrame = 0
         const fps = 75
         const frame = 1000 / fps
-        let roomIndex = 8
+        let roomIndex = 2
         let pauseI = 0
         let paused = false
         let pauseDur = 0
@@ -76,7 +76,7 @@ function Game() {
                 context.fillStyle = "#d6ad78"
                 context.fillRect(player.posX, player.posY, player.skin.width, player.skin.height)
                 context.restore()
-                if (paused && roomIndex === 8)
+                if (paused && roomIndex === 7)
                     drawSign(dropPauses[pauseI].floor, context)
             }
         }
@@ -132,7 +132,7 @@ function Game() {
                     player.posY = 250
                     player.posX = 50
                 }
-                if (roomIndex === 8 && pauseI < dropPauses.length&&player.posY<=1900) {
+                if (roomIndex === 7 && pauseI < dropPauses.length&&player.posY<=1900) {
                     if (player.posY >= dropPauses[pauseI].y) {
                         player.yVel = 0
                         paused = true
@@ -153,13 +153,13 @@ function Game() {
                     index++
                 }
                 draw()
-                if (player.posY >= 1900&&roomIndex===8)
+                if (player.posY >= 1900&&roomIndex===7)
                     handleRoom()
-                if (belowLowestPlatform(player, currentRoom.platforms) && roomIndex != 8)
+                if (belowLowestPlatform(player, currentRoom.platforms) && roomIndex != 7)
                     player.health = 0
                 if (player.health <= 0)
                     spawn()
-                if (player.posX + player.skin.width >= 2010&&roomIndex!=8&&currentRoom.platforms.length>0)
+                if (player.posX + player.skin.width >= 2010&&roomIndex!=7&&currentRoom.platforms.length>0)
                     handleRoom()
                 if (gliding) {
                     if (inputs.has("d"))
