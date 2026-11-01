@@ -116,6 +116,7 @@ const last: room = {
     floor:-1
 }
 
+
 const seventh: room = {
     platforms:[],
     index:7,
