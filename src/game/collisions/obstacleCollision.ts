@@ -27,5 +27,5 @@ function handleSpike(player: Player) {
 
 
 function handleSteam(player: Player, fps: number) {
-        player.health-=10/fps
+        player.health-=60/fps
 }

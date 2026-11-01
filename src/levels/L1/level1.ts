@@ -134,13 +134,27 @@ const eigth: room = {
     floor: -1
 }
 
+const ninthP1: platform = {x:0,y:1300,width:250,height:200,obstacle:{obstacleType:"steam", obstacleHeight:200,obstacleWidth:100,obstacleX:75,obstacleY:0}}
+const ninthP2: platform = {x:350,y:1200,width:250,height:200,obstacle:{obstacleType:"steam", obstacleHeight:200,obstacleWidth:100,obstacleX:25,obstacleY:0}}
+const ninthP3: platform = {x:600,y:1100,width:250,height:200,obstacle:{obstacleType:"steam", obstacleHeight:200,obstacleWidth:100,obstacleX:0,obstacleY:0}}
+const ninthP4: platform = {x:900,y:1200,width:250,height:200,obstacle:{obstacleType:"steam", obstacleHeight:200,obstacleWidth:100,obstacleX:50,obstacleY:0}}
+const ninthP5: platform = {x:1150,y:1100,width:250,height:200,obstacle:{obstacleType:"steam", obstacleHeight:200,obstacleWidth:100,obstacleX:75,obstacleY:0}}
+const ninthP6: platform = {x:1350,y:1000,width:250,height:200,obstacle:{obstacleType:"steam", obstacleHeight:200,obstacleWidth:100,obstacleX:75,obstacleY:0}}
+const ninthP7: platform = {x:1700,y:1100,width:300,height:200}
+
 const ninth: room = {
-    platforms: [seventhPt1],
+    platforms: [ninthP1,ninthP2,ninthP3,ninthP4,ninthP5,ninthP6,ninthP7],
     index: 9,
-    floor: 0
+    floor: -1
 }
+const lastStairs: platform[] =[]
+for(let i =500;i<=1400;i+=100){
+    lastStairs.push({x:(i-500)*1.2,y:2000-i,width:50,height:25, ceiling:-1000})
+}
+const exit:platform = {x:1200,y:500,width:800,height:100}
+
 const tenth: room = {
-    platforms: [],
+    platforms: [...lastStairs,exit],
     index: 10,
     floor: 0
 }
