@@ -27,8 +27,7 @@ function Game() {
         let lastFrame = 0
         const fps = 75
         const frame = 1000 / fps
-        let roomIndex = 6
-        let falling = false
+        let roomIndex = 8
         let pauseI = 0
         let paused = false
         let pauseDur = 0
@@ -77,7 +76,7 @@ function Game() {
                 context.fillStyle = "#d6ad78"
                 context.fillRect(player.posX, player.posY, player.skin.width, player.skin.height)
                 context.restore()
-                if (paused && roomIndex === 7)
+                if (paused && roomIndex === 8)
                     drawSign(dropPauses[pauseI].floor, context)
             }
         }
@@ -132,14 +131,8 @@ function Game() {
                     handleSteam()
                     player.posY = 250
                     player.posX = 50
-                    falling = true
                 }
-                if (roomIndex === 6)
-                    falling = false
-                if (roomIndex === 7 && player.posY >= 1950) {
-                    handleRoom()
-                }
-                if (roomIndex === 7 && pauseI < dropPauses.length) {
+                if (roomIndex === 8 && pauseI < dropPauses.length&&player.posY<=1900) {
                     if (player.posY >= dropPauses[pauseI].y) {
                         player.yVel = 0
                         paused = true
@@ -160,22 +153,24 @@ function Game() {
                     index++
                 }
                 draw()
-                if (belowLowestPlatform(player, currentRoom.platforms))
+                if (player.posY >= 1900&&roomIndex===8)
+                    handleRoom()
+                if (belowLowestPlatform(player, currentRoom.platforms) && roomIndex != 8)
                     player.health = 0
                 if (player.health <= 0)
                     spawn()
-                if (player.posX + player.skin.width >= 2010)
+                if (player.posX + player.skin.width >= 2010&&roomIndex!=8&&currentRoom.platforms.length>0)
                     handleRoom()
-                if (gliding && !falling) {
+                if (gliding) {
                     if (inputs.has("d"))
                         movePlayer(player, "glideRight", 1)
                     else
                         movePlayer(player, "glideLeft", 1)
                 }
                 else {
-                    if (inputs.has("d") && !falling)
+                    if (inputs.has("d"))
                         movePlayer(player, "right", 1)
-                    else if (inputs.has("a") && !falling)
+                    else if (inputs.has("a"))
                         movePlayer(player, "left", 1)
                 }
             }

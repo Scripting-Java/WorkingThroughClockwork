@@ -103,8 +103,8 @@ const sixth: room ={
     index:6,
     floor:3
 }
-
-const lastpt1: platform = {x:0, y:150, width:100, height:50}
+const lasttemp: platform = {x:100,y:150,width:0,height:0}
+const lastpt1: platform = {x:0, y:250, width:100, height:50}
 const dropMarker1: platform = {x:0, y:500, width:0, height:0}
 const dropMarker2: platform = {x:0, y:900, width:0, height:0}
 const dropMarker3: platform = {x:0, y:1300, width:0, height:0}
@@ -113,21 +113,28 @@ const playerKillprevention: platform = {x:0, y:2000,width:0,height:0}
 
 
 const last: room = {
-    platforms:[lastpt1,dropMarker1,dropMarker2,dropMarker3,dropMarker4,playerKillprevention],
+    platforms:[lastpt1,lasttemp,dropMarker1,dropMarker2,dropMarker3,dropMarker4,playerKillprevention],
     index:10,
     floor:-1
 }
 
 
+const seventhPt1: platform = {x:0, y:1300, width:250, height:200}
+const seventhPt2: platform = {x:350, y:1200, width:100, height:100}
+const seventhPt3: platform = {x:550, y:1050, width:100, height:100}
+const seventhPt4: platform = {x:750, y:900, width:100, height:100}
+const seventhPt5: platform = {x:950, y:800, width:100, height:100}
+const seventhPt6: platform = {x:1150, y:700, width:100, height:100}
+const seventhPt7: platform = {x:1400, y:650, width:600, height:100}
+
 const seventh: room = {
-    platforms:[],
+    platforms: style([seventhPt1,seventhPt2,seventhPt3,seventhPt4,seventhPt5,seventhPt6,seventhPt7]),
     index:7,
-    floor:0
+    floor:3
 }
 
-
 const eighth: room = {
-    platforms:[],
+    platforms:[seventhPt1],
     index:8,
     floor:0
 }
@@ -139,5 +146,5 @@ const ninth: room = {
 
 export const abandonedWorkshop: level = {
     id: "abandoned",
-    rooms: [first, stairs,second, third, fourth, fifth, sixth, last,seventh,eighth,ninth,last]
+    rooms: [first, stairs,second, third, fourth, fifth, sixth, seventh,last,eighth,ninth,last]
 }
