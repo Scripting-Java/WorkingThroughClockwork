@@ -19,7 +19,15 @@ export function spike(obstacle: obstacle, platform: platform, context: CanvasRen
     const y = platform.y + obstacle.obstacleY
     const w = obstacle.obstacleWidth
     const h = obstacle.obstacleHeight
-    context.drawImage(spikeImg, x, y - h, w, h)
+    if(obstacle.dir==="down"){
+        context.save()
+        context.translate(x,y+h)
+        context.scale(1,-1)
+        context.drawImage(spikeImg,0,0,w,h)
+        context.restore()
+    }
+    else
+        context.drawImage(spikeImg, x, y - h, w, h)
 }
 export interface steamCycle{
     elapsed:number, //frames btw

@@ -1,4 +1,4 @@
-export type harmful = "spike"|"gear"|"steam"
+export type harmful = "spike"|"steam"
 export type platType = "default"|"rusted"|"pipe"
 export interface platform{
     x:number,
@@ -16,7 +16,8 @@ export interface obstacle{
     obstacleWidth: number,
     obstacleHeight:number,
     obstacleX:number, 
-    obstacleY:number
+    obstacleY:number,
+    dir?: 'up'|'down'
 }
 export interface room{
     platforms: platform[],
