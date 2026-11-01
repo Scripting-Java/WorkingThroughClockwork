@@ -24,9 +24,14 @@ function Game() {
     const player = playerRef.current
     const canvas = useRef<HTMLCanvasElement | null>(null)
     useEffect(() => {
+        let lastFrame = 0
         const fps = 75
         const frame = 1000 / fps
         let roomIndex = 5
+        let falling = false
+        let pauseI = 0
+        let paused = false
+        let pauseDur = 0
         let currentRoom = abandonedWorkshop.rooms[roomIndex]
         let cycles: (steamCycle | null)[] = []
         function handleSteam() {
@@ -72,8 +77,8 @@ function Game() {
                 context.fillStyle = "#d6ad78"
                 context.fillRect(player.posX, player.posY, player.skin.width, player.skin.height)
                 context.restore()
-                 if(paused&&roomIndex===7)
-                    drawSign(dropPauses[pauseI].floor,context)
+                if (paused && roomIndex === 7)
+                    drawSign(dropPauses[pauseI].floor, context)
             }
         }
 
@@ -84,7 +89,7 @@ function Game() {
             player.posY = spawnY
             player.yVel = 0
             player.health = 100
-            player.onGround = false
+            player.onGround = true
             draw()
         }
 
@@ -101,11 +106,6 @@ function Game() {
         }
 
         spawn()
-        let lastFrame = 0
-        let falling = false
-        let pauseI = 0
-        let paused = false
-        let pauseDur = 0
         function game(now: number) {
             if (now - lastFrame >= frame) {
                 lastFrame = now - ((now - lastFrame) % frame)
@@ -134,9 +134,11 @@ function Game() {
                     player.posX = 50
                     falling = true
                 }
-                if(roomIndex===7&&player.posY>=1950){
-                    handleRoom()
+                if(roomIndex===6)
                     falling=false
+                if (roomIndex === 7 && player.posY >= 1950) {
+                    handleRoom()
+                    falling = false
                 }
                 if (roomIndex === 7 && pauseI < dropPauses.length) {
                     if (player.posY >= dropPauses[pauseI].y) {
@@ -144,6 +146,8 @@ function Game() {
                         paused = true
                     }
                 }
+                if(roomIndex===8)
+                    falling=false
                 ceilColl(player, 0)
                 player.onGround = false
                 let index = 0
