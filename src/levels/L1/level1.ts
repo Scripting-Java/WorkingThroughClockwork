@@ -116,8 +116,15 @@ const seventh: room = {
     floor:-1
 }
 
+const burnerPlatform: platform = {x:0,y:900,width:100,height:100}
+const eighth: room = {
+    platforms:[burnerPlatform],
+    index:8,
+    floor:-1
+}
+
 
 export const abandonedWorkshop: level = {
     id: "abandoned",
-    rooms: [first, stairs,second, third, fourth, fifth, sixth,seventh]
+    rooms: [first, stairs,second, third, fourth, fifth, sixth,seventh,eighth]
 }

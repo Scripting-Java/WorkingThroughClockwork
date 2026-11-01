@@ -12,6 +12,7 @@ import { drawFloor } from "../game/floors/drawFloors"
 import { camera, view } from "../game/camera"
 import { pipes } from "../levels/data"
 import type { steamCycle } from "../game/obstacles/drawObstacles"
+import { drawSign } from "../game/floors/drawFloorSigns"
 
 
 const dropPauses = [{ y: 500, floor: 2 }, { y: 900, floor: 1 }, { y: 1300, floor: 0 }, { y: 1700, floor: -1 }]
@@ -68,10 +69,11 @@ function Game() {
                     }
                     index++
                 }
-
                 context.fillStyle = "#d6ad78"
                 context.fillRect(player.posX, player.posY, player.skin.width, player.skin.height)
                 context.restore()
+                 if(paused&&roomIndex===7)
+                    drawSign(dropPauses[pauseI].floor,context)
             }
         }
 
@@ -131,6 +133,10 @@ function Game() {
                     player.posY = 250
                     player.posX = 50
                     falling = true
+                }
+                if(roomIndex===7&&player.posY>=1950){
+                    handleRoom()
+                    falling=false
                 }
                 if (roomIndex === 7 && pauseI < dropPauses.length) {
                     if (player.posY >= dropPauses[pauseI].y) {
