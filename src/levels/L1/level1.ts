@@ -117,8 +117,9 @@ const seventh: room = {
 }
 
 const burnerPlatform: platform = {x:0,y:900,width:100,height:100}
+const burner2: platform = {x:200,y:1100, width:100, height:100 }
 const eighth: room = {
-    platforms:[burnerPlatform],
+    platforms:[burnerPlatform,burner2],
     index:8,
     floor:-1
 }

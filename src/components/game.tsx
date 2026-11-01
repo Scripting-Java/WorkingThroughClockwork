@@ -27,7 +27,7 @@ function Game() {
         let lastFrame = 0
         const fps = 75
         const frame = 1000 / fps
-        let roomIndex = 5
+        let roomIndex = 7
         let falling = false
         let pauseI = 0
         let paused = false
@@ -134,11 +134,10 @@ function Game() {
                     player.posX = 50
                     falling = true
                 }
-                if(roomIndex===6)
-                    falling=false
+                if (roomIndex === 6)
+                    falling = false
                 if (roomIndex === 7 && player.posY >= 1950) {
                     handleRoom()
-                    falling = false
                 }
                 if (roomIndex === 7 && pauseI < dropPauses.length) {
                     if (player.posY >= dropPauses[pauseI].y) {
@@ -146,8 +145,6 @@ function Game() {
                         paused = true
                     }
                 }
-                if(roomIndex===8)
-                    falling=false
                 ceilColl(player, 0)
                 player.onGround = false
                 let index = 0

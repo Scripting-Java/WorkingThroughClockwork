@@ -16,6 +16,8 @@ export function groundCollision(player:Player){
 
 
 export function groundCollisionOfPlatform(player:Player, platform: platform, prevY:number){
+    if(platform.width<=0||platform.height<=0)
+        return
     const playerH=player.skin.height
     const playerW = player.skin.width
     const ground = platform.y
