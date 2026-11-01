@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react"
+import { useRef, useEffect, useState } from "react"
 import type { Player } from "../game/player"
 import { movePlayer, skins } from "../game/player"
 import { gravity, glideGravity } from "../game/gravity"
@@ -13,11 +13,12 @@ import { camera, view } from "../game/camera"
 import { pipes } from "../levels/data"
 import type { steamCycle } from "../game/obstacles/drawObstacles"
 import { drawSign } from "../game/floors/drawFloorSigns"
-
+import "./game.css"
 
 const dropPauses = [{ y: 500, floor: 2 }, { y: 900, floor: 1 }, { y: 1300, floor: 0 }, { y: 1700, floor: -1 }]
 
 function Game() {
+    const [health, setHealth] = useState(100)
     let spawnX = 100
     let spawnY = 200
     const playerRef = useRef<Player>({ skin: skins[0], posX: 100, posY: 450, health: 100, yVel: 0, onGround: true })
@@ -27,7 +28,7 @@ function Game() {
         let lastFrame = 0
         const fps = 75
         const frame = 1000 / fps
-        let roomIndex = 8
+        let roomIndex = 9
         let pauseI = 0
         let paused = false
         let pauseDur = 0
@@ -89,6 +90,7 @@ function Game() {
             player.yVel = 0
             player.health = 100
             player.onGround = true
+            setHealth(100)
             draw()
         }
 
@@ -132,7 +134,7 @@ function Game() {
                     player.posY = 250
                     player.posX = 50
                 }
-                if (roomIndex === 7 && pauseI < dropPauses.length&&player.posY<=1900) {
+                if (roomIndex === 7 && pauseI < dropPauses.length && player.posY <= 1900) {
                     if (player.posY >= dropPauses[pauseI].y) {
                         player.yVel = 0
                         paused = true
@@ -152,14 +154,17 @@ function Game() {
                     }
                     index++
                 }
+                setHealth(player.health)
                 draw()
-                if (player.posY >= 1900&&roomIndex===7)
+                if (player.posY >= 1900 && roomIndex === 7)
                     handleRoom()
-                if (belowLowestPlatform(player, currentRoom.platforms) && roomIndex != 7)
+                if (belowLowestPlatform(player, currentRoom.platforms) && roomIndex != 7) {
                     player.health = 0
+                    setHealth(0)
+                }
                 if (player.health <= 0)
                     spawn()
-                if (player.posX + player.skin.width >= 2010&&roomIndex!=7&&currentRoom.platforms.length>0)
+                if (player.posX + player.skin.width >= 2010 && roomIndex != 7 && currentRoom.platforms.length > 0)
                     handleRoom()
                 if (gliding) {
                     if (inputs.has("d"))
@@ -181,6 +186,14 @@ function Game() {
         window.addEventListener("keyup", handleInputOff)
         return () => { cancelAnimationFrame(frameId), window.removeEventListener("keydown", handleJump), window.removeEventListener("keyup", handleInputOff) }
     }, [])
-    return <canvas ref={canvas} width={2000} height={1500} />
+    return (
+        <div className="game">
+            <div className = "health">
+                <div className="barLength" style={{width:`${health}%`}} />
+                <p className="write">{health.toFixed(2)}/100</p>
+            </div>
+        <canvas ref={canvas} width={2000} height={1500} />
+        </div>
+    )
 }
 export default Game 
