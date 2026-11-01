@@ -102,10 +102,22 @@ const sixth: room ={
     floor:3
 }
 
-const seventhPt1
+const seventhpt1: platform = {x:0, y:150, width:100, height:50}
+const dropMarker1: platform = {x:0, y:500, width:0, height:0}
+const dropMarker2: platform = {x:0, y:900, width:0, height:0}
+const dropMarker3: platform = {x:0, y:1300, width:0, height:0}
+const dropMarker4: platform = {x:0, y:1700, width:0, height:0}
+const playerKillprevention: platform = {x:0, y:2000,width:0,height:0}
+
+
+const seventh: room = {
+    platforms:[seventhpt1,dropMarker1,dropMarker2,dropMarker3,dropMarker4,playerKillprevention],
+    index:7,
+    floor:-1
+}
 
 
 export const abandonedWorkshop: level = {
     id: "abandoned",
-    rooms: [first, stairs,second, third, fourth, fifth, sixth]
+    rooms: [first, stairs,second, third, fourth, fifth, sixth,seventh]
 }

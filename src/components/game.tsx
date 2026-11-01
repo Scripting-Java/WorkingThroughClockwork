@@ -14,7 +14,7 @@ import { pipes } from "../levels/data"
 import type { steamCycle } from "../game/obstacles/drawObstacles"
 
 
-const dropPauses
+const dropPauses = [{ y: 500, floor: 2 }, { y: 900, floor: 1 }, { y: 1300, floor: 0 }, { y: 1700, floor: -1 }]
 
 function Game() {
     let spawnX = 100
@@ -31,7 +31,7 @@ function Game() {
         function handleSteam() {
             cycles = currentRoom.platforms.map(platform => {
                 if (platform.obstacle?.obstacleType === "steam")
-                    return { elapsed: Math.random()*7*fps, active: false, contact: 0 }
+                    return { elapsed: Math.random() * 7 * fps, active: false, contact: 0 }
                 return null
             })
         }
@@ -101,27 +101,43 @@ function Game() {
         spawn()
         let lastFrame = 0
         let falling = false
+        let pauseI = 0
+        let paused = false
+        let pauseDur = 0
         function game(now: number) {
             if (now - lastFrame >= frame) {
                 lastFrame = now - ((now - lastFrame) % frame)
 
                 const prev = player.posY
                 const gliding = inputs.has("s") && (inputs.has("a") || inputs.has("d"))
-                if (gliding)
-                    glideGravity(player)
-                else
-                    gravity(player)
-                if(roomIndex===5&&player.posY>1200){
-                    roomIndex++
-                    currentRoom=abandonedWorkshop.rooms[roomIndex]
-                    handleSteam()
-                    player.posY=250
-                    player.posX=50
-                    falling=true
+                if (paused) {
+                    pauseDur++
+                    if (pauseDur >= fps) {
+                        paused = false
+                        pauseDur = 0
+                        pauseI++
+                    }
                 }
-                if(player.posY>=1000)
-                    falling=false
-
+                else {
+                    if (gliding)
+                        glideGravity(player)
+                    else
+                        gravity(player)
+                }
+                if (roomIndex === 5 && player.posY > 1200) {
+                    roomIndex++
+                    currentRoom = abandonedWorkshop.rooms[roomIndex]
+                    handleSteam()
+                    player.posY = 250
+                    player.posX = 50
+                    falling = true
+                }
+                if (roomIndex === 7 && pauseI < dropPauses.length) {
+                    if (player.posY >= dropPauses[pauseI].y) {
+                        player.yVel = 0
+                        paused = true
+                    }
+                }
                 ceilColl(player, 0)
                 player.onGround = false
                 let index = 0
@@ -129,7 +145,7 @@ function Game() {
                     groundCollisionOfPlatform(player, platform, prev)
                     if (platform.obstacle) {
                         const cycle = cycles[index]
-                        if(cycle)
+                        if (cycle)
                             handleObstacles(platform.obstacle, player, platform, fps, cycle)
                         else
                             handleObstacles(platform.obstacle, player, platform, fps)
@@ -143,17 +159,17 @@ function Game() {
                     spawn()
                 if (player.posX + player.skin.width >= 2010)
                     handleRoom()
-                if (gliding&&!falling) {
+                if (gliding && !falling) {
                     if (inputs.has("d"))
                         movePlayer(player, "glideRight", 1)
                     else
                         movePlayer(player, "glideLeft", 1)
                 }
                 else {
-                    if (inputs.has("d")&&!falling)
+                    if (inputs.has("d") && !falling)
                         movePlayer(player, "right", 1)
-                    else if(inputs.has("a")&&!falling)
-                         movePlayer(player, "left", 1)
+                    else if (inputs.has("a") && !falling)
+                        movePlayer(player, "left", 1)
                 }
             }
             frameId = requestAnimationFrame(game)
