@@ -15,7 +15,7 @@ export function handleObstacles(obstacle: obstacle, player: Player, platform: pl
         handleSpike(player)
     if (obstacle.obstacleType === "steam" && cycle) {
         if(touching&&cycle.active)
-            handleSteam(player, tempFps, cycle)
+            handleSteam(player, tempFps)
         else
             cycle.contact=0
     }
