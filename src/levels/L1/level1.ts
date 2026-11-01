@@ -1,4 +1,3 @@
-import { spike } from "../../game/obstacles/drawObstacles";
 import type { platform, room, level } from "../data";
 import { style } from "../styles";
 const intro: platform = { x: 0, y: 1300, width: 2000, height: 200 }
