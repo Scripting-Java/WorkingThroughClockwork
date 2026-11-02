@@ -1,10 +1,10 @@
 import type { platform, room, level } from "../data";
 import { style } from "../styles";
-const intro: platform = { x: 0, y: 1300, width: 2000, height: 200 }
-const intropt2: platform = { x: 500, y: 1300, width: 50, height: 200, obstacle: { obstacleType: "spike", obstacleHeight: 50, obstacleWidth: 50, obstacleX: 0, obstacleY: 0 } }
-const intropt3: platform = { x: 550, y: 1300, width: 50, height: 200, obstacle: { obstacleType: "spike", obstacleHeight: 50, obstacleWidth: 50, obstacleX: 0, obstacleY: 0 } }
-const intropt4: platform = { x: 1250, y: 1300, width: 50, height: 200, obstacle: { obstacleType: "spike", obstacleHeight: 50, obstacleWidth: 50, obstacleX: 0, obstacleY: 0 } }
-const intropt5: platform = { x: 1300, y: 1300, width: 50, height: 200, obstacle: { obstacleType: "spike", obstacleHeight: 50, obstacleWidth: 50, obstacleX: 0, obstacleY: 0 } }
+const intro: platform = { x: 0, y: 1000, width: 2000, height: 200 }
+const intropt2: platform = { x: 500, y: 1000, width: 50, height: 200, obstacle: { obstacleType: "spike", obstacleHeight: 50, obstacleWidth: 50, obstacleX: 0, obstacleY: 0 } }
+const intropt3: platform = { x: 550, y: 1000, width: 50, height: 200, obstacle: { obstacleType: "spike", obstacleHeight: 50, obstacleWidth: 50, obstacleX: 0, obstacleY: 0 } }
+const intropt4: platform = { x: 1250, y: 1000, width: 50, height: 200, obstacle: { obstacleType: "spike", obstacleHeight: 50, obstacleWidth: 50, obstacleX: 0, obstacleY: 0 } }
+const intropt5: platform = { x: 1300, y: 1000, width: 50, height: 200, obstacle: { obstacleType: "spike", obstacleHeight: 50, obstacleWidth: 50, obstacleX: 0, obstacleY: 0 } }
 
 
 const first: room = {

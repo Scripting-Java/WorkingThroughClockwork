@@ -70,6 +70,7 @@ function Game() {
                     drawPipe(pipes, context)
                 context.save()
                 view(context, camera, player)
+                if(roomIndex!==7)
                 drawFloor(currentRoom.floor, context)
                 if (roomIndex !== 7) {
                     const lastPlatform = currentRoom.platforms.reduce((a, b) => a.x + a.width > b.x + b.width ? a : b)
