@@ -33,7 +33,7 @@ function Game() {
         let lastFrame = 0
         const fps = 75
         const frame = 1000 / fps
-        let roomIndex = 10
+        let roomIndex = 0
         let pauseI = 0
         let paused = false
         let pauseDur = 0
