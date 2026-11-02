@@ -97,14 +97,19 @@ const fifth: room = {
 }
 
 const sixthPt1: platform = { x: 0, y: 1300, width: 500, height: 200 }
+const sixAdd1: platform = {x:150,y:1300,width:50,height:50,obstacle:{obstacleType:"spike",obstacleHeight:50,obstacleWidth:50,obstacleX:0,obstacleY:0}}
+const sixAdd2: platform = {x:250,y:1300,width:50,height:50,obstacle:{obstacleType:"spike",obstacleHeight:50,obstacleWidth:50,obstacleX:0,obstacleY:0}}
 const sixthPt2: platform = { x: 500, y: 1300, width: 50, height: 200, obstacle: { obstacleType: "steam", obstacleHeight: 200, obstacleWidth: 100, obstacleX: -50, obstacleY: 0 } }
 const sixthPt3: platform = { x: 650, y: 1300, width: 50, height: 200, obstacle: { obstacleType: "spike", obstacleWidth: 50, obstacleHeight: 50, obstacleX: 0, obstacleY: 0 } }
 const sixthPt4: platform = { x: 800, y: 1300, width: 50, height: 200, obstacle: { obstacleType: "steam", obstacleHeight: 200, obstacleWidth: 100, obstacleX: 25, obstacleY: 0 } }
 const sixthPt5: platform = { x: 850, y: 1300, width: 1150, height: 200 }
+const sixAdd3: platform = {x:950,y:100,width:50,height:50,obstacle:{obstacleType:"spike",obstacleHeight:50,obstacleWidth:50,obstacleX:0,obstacleY:0}}
+const sixAdd4: platform = { x: 1150, y: 1300, width: 50, height: 200, obstacle: { obstacleType: "steam", obstacleHeight: 200, obstacleWidth: 100, obstacleX: 25, obstacleY: 0 } }
+const sixAdd5: platform = { x: 1450, y: 1300, width: 50, height: 200, obstacle: { obstacleType: "steam", obstacleHeight: 200, obstacleWidth: 100, obstacleX: 25, obstacleY: 0 } }
 const sixthPt6: platform = { x: 600, y: 900, width: 50, height: 50, obstacle: { obstacleType: "spike", obstacleWidth: 50, obstacleHeight: 50, obstacleX: 0, obstacleY: 0, dir: "down" } }
 
 const sixth: room = {
-    platforms: style([sixthPt1, sixthPt2, sixthPt3, sixthPt4, sixthPt5, sixthPt6]),
+    platforms: style([sixthPt1,sixAdd1,sixAdd2,sixAdd3,sixAdd4,sixAdd5, sixthPt2, sixthPt3, sixthPt4, sixthPt5, sixthPt6]),
     index: 6,
     floor: 3
 }
@@ -131,9 +136,12 @@ const seventhPt4: platform = { x: 750, y: 900, width: 100, height: 100 }
 const seventhPt5: platform = { x: 950, y: 800, width: 100, height: 100 }
 const seventhPt6: platform = { x: 1150, y: 700, width: 100, height: 100 }
 const seventhPt7: platform = { x: 1400, y: 650, width: 600, height: 100 }
+const sevenAdd1: platform = { x: 1450, y: 650, width: 50, height: 200, obstacle: { obstacleType: "steam", obstacleHeight: 200, obstacleWidth: 100, obstacleX: 25, obstacleY: 0 } }
+const sevenAdd2: platform = { x: 1700, y: 650, width: 50, height: 200, obstacle: { obstacleType: "steam", obstacleHeight: 300, obstacleWidth: 100, obstacleX: 25, obstacleY: 0 } }
+const sevenAdd3: platform = { x: 1600, y: 650, width: 50, height: 200, obstacle: { obstacleType: "spike", obstacleHeight: 50, obstacleWidth: 50, obstacleX: 25, obstacleY: 0 } }
 
 const eigth: room = {
-    platforms: style([seventhPt1, seventhPt2, seventhPt3, seventhPt4, seventhPt5, seventhPt6, seventhPt7]),
+    platforms: style([seventhPt1,sevenAdd1,sevenAdd2,sevenAdd3, seventhPt2, seventhPt3, seventhPt4, seventhPt5, seventhPt6, seventhPt7]),
     index: 8,
     floor: -1
 }
@@ -156,9 +164,12 @@ for(let i =500;i<=1400;i+=100){
     lastStairs.push({x:(i-500)*1.2,y:2000-i,width:50,height:25, ceiling:-1000})
 }
 const exit:platform = {x:1200,y:500,width:800,height:100}
+const tenAdd1: platform = { x: 1500, y: 500, width: 50, height: 200, obstacle: { obstacleType: "steam", obstacleHeight: 300, obstacleWidth: 100, obstacleX: 25, obstacleY: 0 } }
+const tenAdd2: platform = { x: 1300, y: 500, width: 50, height: 200, obstacle: { obstacleType: "spike", obstacleHeight: 50, obstacleWidth: 50, obstacleX: 25, obstacleY: 0 } }
+const tenAdd3: platform = { x: 1800, y: 500, width: 50, height: 200, obstacle: { obstacleType: "spike", obstacleHeight: 50, obstacleWidth: 50, obstacleX: 25, obstacleY: 0 } }
 
 const tenth: room = {
-    platforms: [...lastStairs,exit],
+    platforms: [...lastStairs,exit,tenAdd1,tenAdd2,tenAdd3],
     index: 10,
     floor: 0
 }
