@@ -12,6 +12,7 @@
     height: 20px;
     background: #444;
     border: 2px solid #222;
+    border-radius: 5px;
     overflow: hidden;
 }
 

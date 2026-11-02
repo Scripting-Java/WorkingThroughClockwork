@@ -40,9 +40,14 @@ const secondRoomPt6: platform = { x: 1075, y: 1000, width: 50, height: 200, obst
 const secondRoomPt7: platform = { x: 1150, y: 900, width: 150, height: 200 }
 const secondRoomPt8: platform = { x: 1450, y: 800, width: 150, height: 200, obstacle: { obstacleType: "spike", obstacleHeight: 50, obstacleWidth: 50, obstacleX: 50, obstacleY: 0 } }
 const secondRoomPt9: platform = { x: 1700, y: 900, height: 100, width: 300 }
+const roofSpike: platform = {x: 0, y: 1200, width: 0, height: 0,obstacle: { obstacleType: "spike", obstacleHeight: 50, obstacleWidth: 50, obstacleX: 0, obstacleY: -100, dir: "down" }}
+const roofSpike2: platform = {x: 50, y: 1200, width: 0, height: 0,obstacle: { obstacleType: "spike", obstacleHeight: 50, obstacleWidth: 50, obstacleX: 0, obstacleY: -100, dir: "down" }}
+const roofSpike3: platform = {x: 100, y: 1200, width: 0, height: 0,obstacle: { obstacleType: "spike", obstacleHeight: 50, obstacleWidth: 50, obstacleX: 0, obstacleY: -100, dir: "down" }}
+const roofSpike4: platform = {x: 150, y: 1200, width: 0, height: 0,obstacle: { obstacleType: "spike", obstacleHeight: 50, obstacleWidth: 50, obstacleX: 0, obstacleY: -100, dir: "down" }}
+
 
 const second: room = {
-    platforms: [secondRoomPt1, secondRoomPt2, secondRoomPt3, secondRoomPt4, secondRoomPt5, secondRoomPt6, secondRoomPt7, secondRoomPt8, secondRoomPt9],
+    platforms: [secondRoomPt1,roofSpike4, secondRoomPt2,roofSpike3, secondRoomPt3, secondRoomPt4, secondRoomPt5, secondRoomPt6, secondRoomPt7, secondRoomPt8, secondRoomPt9, roofSpike,roofSpike2],
     index: 2,
     floor: 5
 }

@@ -28,7 +28,7 @@ function Game() {
         let lastFrame = 0
         const fps = 75
         const frame = 1000 / fps
-        let roomIndex = 9
+        let roomIndex = 2
         let pauseI = 0
         let paused = false
         let pauseDur = 0

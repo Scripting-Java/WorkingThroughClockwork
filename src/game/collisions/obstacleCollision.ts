@@ -12,7 +12,7 @@ export function handleObstacles(obstacle: obstacle, player: Player, platform: pl
         tempFps = fps
     const touching = player.posX < x + w && player.posX + player.skin.width > x && player.posY < y && player.posY + player.skin.height > y - h
     if (obstacle.obstacleType === "spike" && touching)
-        handleSpike(player)
+        handleSpike(player,tempFps)
     if (obstacle.obstacleType === "steam" && cycle) {
         if(touching&&cycle.active)
             handleSteam(player, tempFps)
@@ -21,8 +21,9 @@ export function handleObstacles(obstacle: obstacle, player: Player, platform: pl
     }
 }
 
-function handleSpike(player: Player) {
-    player.health = 0
+function handleSpike(player: Player,fps:number) {
+    player.health -=250/fps
+    
 }
 
 
