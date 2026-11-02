@@ -14,6 +14,7 @@ import { pipes } from "../levels/data"
 import type { steamCycle } from "../game/obstacles/drawObstacles"
 import { drawSign } from "../game/floors/drawFloorSigns"
 import "./game.css"
+import { drawDoor } from "../drawDoor"
 
 const dropPauses = [{ y: 500, floor: 2 }, { y: 900, floor: 1 }, { y: 1300, floor: 0 }, { y: 1700, floor: -1 }]
 
@@ -28,7 +29,7 @@ function Game() {
         let lastFrame = 0
         const fps = 75
         const frame = 1000 / fps
-        let roomIndex = 10
+        let roomIndex = 8
         let pauseI = 0
         let paused = false
         let pauseDur = 0
@@ -62,6 +63,10 @@ function Game() {
                 context.save()
                 view(context, camera, player)
                 drawFloor(currentRoom.floor, context)
+                if (roomIndex !== 7) {
+                    const lastPlatform = currentRoom.platforms.reduce((a, b) => a.x + a.width > b.x + b.width ? a : b)
+                    drawDoor(context, lastPlatform.x + lastPlatform.width - 100, lastPlatform.y)
+                }
                 let index = 0
                 for (const platform of currentRoom.platforms) {
                     drawTile(platform, context)
@@ -188,11 +193,11 @@ function Game() {
     }, [])
     return (
         <div className="game">
-            <div className = "health">
-                <div className="barLength" style={{width:`${health}%`}} />
+            <div className="health">
+                <div className="barLength" style={{ width: `${health}%` }} />
                 <p className="write">{health.toFixed(2)}/100</p>
             </div>
-        <canvas ref={canvas} width={2000} height={1500} />
+            <canvas ref={canvas} width={2000} height={1500} />
         </div>
     )
 }
