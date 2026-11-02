@@ -20,6 +20,9 @@ const dropPauses = [{ y: 500, floor: 2 }, { y: 900, floor: 1 }, { y: 1300, floor
 
 function Game() {
     const [health, setHealth] = useState(100)
+    const [maxHealth, setMaxHealth] = useState(100)
+    const [skin, setSkin] = useState(skins[0])
+    const[done,setDone] = useState(false)
     let spawnX = 100
     let spawnY = 200
     const playerRef = useRef<Player>({ skin: skins[0], posX: 100, posY: 450, health: 100, yVel: 0, onGround: true })
@@ -43,9 +46,13 @@ function Game() {
             })
         }
         handleSteam()
+        let completed =false
         function handleRoom() {
-            if (roomIndex >= abandonedWorkshop.rooms.length - 1)
+            if (roomIndex >= abandonedWorkshop.rooms.length - 1){
+                completed=true
+                setDone(true)
                 return
+            }
             roomIndex++
             currentRoom = abandonedWorkshop.rooms[roomIndex]
             handleSteam()
@@ -56,7 +63,7 @@ function Game() {
         function draw() {
             if (context && tempCanvas) {
                 context.clearRect(0, 0, tempCanvas.width, tempCanvas.height)
-                context.fillStyle = "#b3a68c"
+                context.fillStyle = "#615743"
                 context.fillRect(0, 0, tempCanvas.width, tempCanvas.height)
                 if (roomIndex === 0)
                     drawPipe(pipes, context)
@@ -93,9 +100,9 @@ function Game() {
             player.posX = spawnX
             player.posY = spawnY
             player.yVel = 0
-            player.health = 100
+            player.health = 100 * (1 + player.skin.healthBonus)
             player.onGround = true
-            setHealth(100)
+            setHealth(player.health)
             draw()
         }
 
@@ -193,11 +200,33 @@ function Game() {
     }, [])
     return (
         <div className="game">
-            <div className="health">
-                <div className="barLength" style={{ width: `${health}%` }} />
-                <p className="write">{health.toFixed(2)}/100</p>
+            <div className="settings">
+                <select value={skin.skin}
+                    onChange={(e) => {
+                        const skin = skins.find(s => s.skin === e.target.value)!
+                        setSkin(skin)
+                        playerRef.current.skin = skin
+                        const newMaxHealth = 100 * (1 + skin.healthBonus)
+                        setMaxHealth(newMaxHealth)
+                        playerRef.current.health = newMaxHealth
+                        setHealth(newMaxHealth)
+                    }}
+                >
+                    {skins.map(skin => (<option key={skin.skin} value={skin.skin}>{skin.skin}</option>))}
+                </select>
+                <p>Difficulty: {skin.difficulty}</p>
             </div>
-            <canvas ref={canvas} width={2000} height={1500} />
+            <div className="containHealth">
+                <div className="health">
+                    <div
+                        className="barLength"
+                        style={{ width: `${(health / maxHealth) * 100}%` }}
+                    />
+                    <p className="write">{health.toFixed(2)}/{maxHealth}</p>
+                </div>
+
+                <canvas ref={canvas} width={2000} height={1500} />
+            </div>
         </div>
     )
 }
