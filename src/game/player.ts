@@ -50,7 +50,3 @@ export function movePlayer(player: Player, dir:direction, time:number,){
         player.posX-=calculateMoveDist(time,player.skin,glideX)
     }
 }
-
-export function drawPlayer(player: Player, context: CanvasRenderingContext2D){
-    
-}
