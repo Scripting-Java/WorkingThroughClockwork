@@ -28,7 +28,7 @@ export function drawTile(platform:platform, context: CanvasRenderingContext2D){
 
 export function drawPipe(platform: platform, context: CanvasRenderingContext2D){
     const tileCount = Math.ceil(platform.width/512)
-    let y = platform.y
+    let y = 400
     for(let i =0; i<tileCount; i++){
         if(i>0){
             let temp = 0

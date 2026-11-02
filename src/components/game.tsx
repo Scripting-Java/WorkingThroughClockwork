@@ -19,10 +19,11 @@ import { drawDoor } from "../drawDoor"
 const dropPauses = [{ y: 500, floor: 2 }, { y: 900, floor: 1 }, { y: 1300, floor: 0 }, { y: 1700, floor: -1 }]
 
 function Game() {
+    const [line, setLine] = useState(0)
     const [health, setHealth] = useState(100)
     const [maxHealth, setMaxHealth] = useState(100)
     const [skin, setSkin] = useState(skins[0])
-    const[done,setDone] = useState(false)
+    const [done, setDone] = useState(false)
     let spawnX = 100
     let spawnY = 200
     const playerRef = useRef<Player>({ skin: skins[0], posX: 100, posY: 450, health: 100, yVel: 0, onGround: true })
@@ -32,7 +33,7 @@ function Game() {
         let lastFrame = 0
         const fps = 75
         const frame = 1000 / fps
-        let roomIndex = 8
+        let roomIndex = 10
         let pauseI = 0
         let paused = false
         let pauseDur = 0
@@ -46,10 +47,10 @@ function Game() {
             })
         }
         handleSteam()
-        let completed =false
+        let completed = false
         function handleRoom() {
-            if (roomIndex >= abandonedWorkshop.rooms.length - 1){
-                completed=true
+            if (roomIndex >= abandonedWorkshop.rooms.length - 1) {
+                completed = true
                 setDone(true)
                 return
             }
@@ -108,6 +109,10 @@ function Game() {
 
         const inputs = new Set<string>()
         function handleJump(event: KeyboardEvent) {
+            if (completed && event.key === "Enter") {
+                setLine(current => Math.min(current + 1, 9))
+                return
+            }
             const input = event.key.toLowerCase()
             inputs.add(input)
             if (event.key.toLowerCase() === "w")
@@ -120,6 +125,7 @@ function Game() {
 
         spawn()
         function game(now: number) {
+            if (completed) return
             if (now - lastFrame >= frame) {
                 lastFrame = now - ((now - lastFrame) % frame)
 
@@ -207,6 +213,7 @@ function Game() {
                         setSkin(skin)
                         playerRef.current.skin = skin
                         const newMaxHealth = 100 * (1 + skin.healthBonus)
+                        player.health=0
                         setMaxHealth(newMaxHealth)
                         playerRef.current.health = newMaxHealth
                         setHealth(newMaxHealth)
@@ -222,11 +229,32 @@ function Game() {
                         className="barLength"
                         style={{ width: `${(health / maxHealth) * 100}%` }}
                     />
-                    <p className="write">{health.toFixed(2)}/{maxHealth}</p>
+                    <p className="write">{health.toFixed(0)}/{maxHealth.toFixed(0)}</p>
                 </div>
 
                 <canvas ref={canvas} width={2000} height={1500} />
             </div>
+            {done && (
+                <div className="win">
+                    <div>
+                        {[
+                            "> LEVEL COMPLETE",
+                            "> TIME TRAVELING...",
+                            "> TIME TRAVEL COMPLETE.",
+                            "> YEAR: 2026",
+                            "> WELCOME BACK, ADVENTURER.",
+                            "> WARNING! PORTAL UNSTABLE!",
+                            "> PLEASE WAIT [-----         ]",
+                            "> TRAVELING TO: YEAR -348938548",
+                            "> OVERGROWTH — DINOSAUR ERA",
+                            "> coming soon!"
+                        ].slice(0, line + 1).map((line, i) => (
+                            <p className="line" key={i}>{line}</p>
+                        ))}
+                        {line < 9 && <p className="enter">PRESS ENTER TO CONTINUE_</p>}
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
